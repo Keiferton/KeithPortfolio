@@ -1,202 +1,172 @@
-/* === PAGE BACKGROUND AND TEXT STYLE === */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
 body {
-    font-family: 'Trebuchet MS', Arial, sans-serif; /* 💡 Change the font family for the entire page */
-    background-color: #bfbfbf; /* 🎨 You can change the entire page background color here */
+  background-color: #ffffff;
+  color: #222;
+  display: flex;
 }
 
-/* === PARAGRAPH STYLE === */
-p {
-    color: #1a1a1a; /* 🎨 Bio and fun fact text color */
-    text-align: center; /* 💡 Like "text center" in Google Docs/Word */
-}
-
-/* === LINK STYLES === */
-a {
-    text-decoration: none;
-    color: #404040; /* 💡 All links will appear blue by default */
-}
-
-a:-webkit-any-link {
-    text-decoration: none;
-    color: #404040; /* IMPORTANT: make this the same as above! ^^^ */
-}
-
-/* === MAIN CONTAINER BOX (THE CARD) === */
-#container {
-    max-width: 400px; /* 💡 Change this to make the card bigger/smaller */
-    background-color: #f2f2f2; /* 🎨 Card background color */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 🎨 Adds a soft shadow */
-    border-radius: 10px; /* 💡 Rounded corners */
-    margin: 15px auto;
-    padding: 25px;
-}
-
-/* === "HI, MY NAME IS" HEADING === */
-#name-intro {
-    font-family: 'Courier New', Courier, monospace; /* 💡 Change the font family for the intro text */
-    color: #333333; /* 🎨 Intro text color */
-    margin-bottom: 15px;
-}
-
-/* === PROFILE PICTURE STYLE === */
-#profile-pic {
-    width: 90%; /* 💡 Resize profile picture here */
-    border-radius: 10px; /* 💡 Rounds the corners of the profile picture */
-    margin-bottom: 15px;
-}
-
-/* === YOUR NAME (BIG TEXT) === */
-#name {
-    font-size: 64px; /* 💡 Change this to make your name bigger/smaller */
-    color: #1a1a1a; /* 🎨 Name text color */
-    margin-bottom: 15px;
-}
-
-/* === HOMETOWN TEXT === */
-#hometown {
-    color: #4d4d4d; /* 🎨 Hometown text color */
-    margin-bottom: 10px;
-}
-
-/* === EMAIL SECTION === */
-#email {
-    color: #1a1a1a;
-    margin-bottom: 15px;
-}
-
-#email-link { /* The link to your email */
-    color: #1a1a1a; /* 🎨 Change the color of the email link */
-    text-decoration: underline; 
-}
-
-#email-link:hover { /* Change the color of the link when you put your mouse over it */
-    color: #4d4d4d; /* 🎨 Change the hover color of the email link */
-}
-
-/* === BIO SECTION === */
-#bio {
-    font-size: 20px; /* 💡 Change the size of your bio text */
-    margin: 10px;
-}
-
-#fun-fact {
-    font-size: 15px; /* 💡 Change the size of the fun fact text */
-    margin: 10px;
-}
-
-/* === BACKGROUND IMAGE STYLE === */
-#background-img {
-    background-image: url("[PUT A URL HERE !!!]");
+.main-content {
+  flex: 1;
+  padding: 40px;
+  max-width: 720px;      /* constrain width */
+  margin: 0 auto;        /* center content */
+  line-height: 1.7;      /* improve readability */
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* === Don't Touch! (your website will totally explode) === */
-html, body {
-    margin: 0;
-    padding: 0;
+.container {
+  display: flex;
+  width: 100%;
 }
 
-h1, h2, h3 {
-    padding: 0;
-    margin: 0;
+.sidebar {
+  width: 250px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
 }
 
-#container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.profile-img {
+  border-radius: 50%;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
-#profile-pic {
-    aspect-ratio: 1 / 1; /* Makes the image a square */
-    object-fit: cover;
-    display: block;
+nav ul {
+  list-style: none;
 }
 
-#background-img {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Makes sure background stays behind everything else */
-    background-size: cover; /* Makes sure image covers the whole background */
-    background-position: center;
-    background-color: #acacac; /* Fallback color */
+nav li {
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+nav li.active {
+  background-color: #ddd;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.socials {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.icon svg {
+  width: 24px;
+  height: 24px;
+  fill: #444;
+  transition: transform 0.2s ease, fill 0.2s ease;
+}
+
+.icon:hover svg {
+  transform: scale(1.1);
+  fill: #0077b5;
+}
+
+.socials img {
+  width: 20px;
+  height: 20px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.intro h1 {
+  font-size: 2.5rem;
+  margin: 10px 0;
+}
+
+.intro h2 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.intro p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.btn,
+.btn-outline {
+  padding: 10px 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.btn {
+  background-color: #222;
+  color: #fff;
+}
+
+.btn-outline {
+  border: 1px solid #222;
+  color: #222;
+}
+
+.projects h3 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+}
+
+.code {
+  color: #888;
+}
+
+.project {
+  display: flex;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+.project img {
+  width: 150px;
+  height: auto;
+  border-radius: 6px;
+}
+
+.project h4 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.project p {
+  line-height: 1.4;
+}
+
+.tag {
+  font-size: 0.7rem;
+  background-color: #444;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+nav li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
