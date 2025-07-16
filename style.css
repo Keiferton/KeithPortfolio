@@ -33,6 +33,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+  position:fixed
 }
 
 .profile-img {
