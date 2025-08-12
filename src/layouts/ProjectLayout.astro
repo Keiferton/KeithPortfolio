@@ -1,0 +1,60 @@
+---
+import Base from "@/layouts/Base.astro";
+import Acknowledgments from "@/components/Acknowledgments.astro";
+
+const { data, Content } = Astro.props;
+
+const prettyDate = (iso?: string) =>
+  iso ? new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short" }) : "";
+---
+<Base title={`${data.title} — Projects`} description={data.summary}>
+  <article class="prose prose-zinc max-w-none">
+    <a href="/projects" class="text-sm underline">← Back to Projects</a>
+
+    <header class="mt-2">
+      <h1 class="mb-2">{data.title}</h1>
+      <div class="text-sm text-zinc-600 flex gap-3 flex-wrap">
+        {data.date && (
+          <span>Updated: <span class="font-medium text-zinc-800">{prettyDate(data.date)}</span></span>
+        )}
+        {Array.isArray(data.tags) && data.tags.length > 0 && (
+          <span>Tags: <span class="font-medium text-zinc-800">{data.tags.join(", ")}</span></span>
+        )}
+        {Array.isArray(data.tech) && data.tech.length > 0 && (
+          <span>Tech: <span class="font-medium text-zinc-800">{data.tech.join(", ")}</span></span>
+        )}
+      </div>
+    </header>
+
+    {data.cover && (
+      <img
+        src={data.cover}
+        alt={data.title}
+        class="rounded-xl my-4 w-full max-w-xl mx-auto h-auto"
+        loading="lazy"
+        decoding="async"
+      />
+    )}
+
+    {/* Links */}
+    {data.links && (
+      <div class="my-4 p-4 bg-gray-50 rounded-lg border">
+        <h2 class="text-lg font-semibold mb-2">Links</h2>
+        <ul class="space-y-1">
+          {data.links.github && (
+            <li><a href={data.links.github} target="_blank" rel="noopener" class="underline">GitHub</a></li>
+          )}
+          {data.links.demo && (
+            <li><a href={data.links.demo} target="_blank" rel="noopener" class="underline">Demo</a></li>
+          )}
+        </ul>
+      </div>
+    )}
+
+    {/* Body content from Markdown */}
+    <Content />
+
+    {/* Auto-acknowledgment for Esquerra Lab projects */}
+    {data.categories?.includes("Esquerra Lab") && <Acknowledgments />}
+  </article>
+</Base>

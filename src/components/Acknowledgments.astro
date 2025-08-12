@@ -1,0 +1,16 @@
+---
+const acknowledgments = [
+  "National Institutes of Health U-RISE: T34-GM145400",
+  "NSF LSAMP: HRD-1826490",
+  "Genentech Foundation Scholars #G-7874540",
+  "NSF STC Center for Cellular Construction: DBI-1548297",
+  "Student Enrichment Opportunities (SEO)",
+  "Esquerra Lab",
+];
+---
+<div class="mt-8 p-4 border-t text-sm text-zinc-600">
+  <strong>Acknowledgments</strong>
+  <ul class="list-disc list-inside mt-2">
+    {acknowledgments.map((item) => <li>{item}</li>)}
+  </ul>
+</div>
