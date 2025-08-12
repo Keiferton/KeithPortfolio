@@ -1,0 +1,48 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getCollection } from "astro:content";
+export async function getStaticPaths() {
+  const entries = await getCollection("sidequests");
+  return entries.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await entry.render();
+const prettyDate = (iso?: string) => iso ? new Date(iso).toLocaleDateString(undefined,{year:"numeric",month:"short"}) : "";
+---
+<Base title={`${d.title} — Side Quest`} description={d.summary}>
+  <article class="prose prose-zinc max-w-none">
+    <a href="/side-quests" class="text-sm underline">← Back to Side Quests</a>
+    <header class="mt-2">
+      <h1 class="mb-2">{d.title}</h1>
+      <div class="text-sm text-zinc-600 flex gap-3 flex-wrap">
+        {d.date && <span>When: <span class="font-medium text-zinc-800">{prettyDate(d.date)}</span></span>}
+        {Array.isArray(d.tags) && d.tags.length > 0 && (
+          <span>Tags: <span class="font-medium text-zinc-800">{d.tags.join(", ")}</span></span>
+        )}
+      </div>
+    </header>
+
+    {d.cover && <img src={d.cover} alt={d.title} class="rounded-xl my-4 w-full max-w-xl mx-auto h-auto" />}
+
+    {Array.isArray(d.thumbs) && d.thumbs.length > 0 && (
+      <div class="my-4 space-y-3">
+        {d.thumbs.map((src: string, i: number) => (
+          <img src={src} alt={`${d.title} image ${i+1}`} class="rounded-xl w-full h-auto" loading="lazy" />
+        ))}
+      </div>
+    )}
+
+    {d.links && (d.links.github || d.links.demo) && (
+      <div class="my-4 p-4 bg-gray-50 rounded-lg border">
+        <h2 class="text-lg font-semibold mb-2">Links</h2>
+        <ul class="space-y-1">
+          {d.links.github && <li><a class="underline" href={d.links.github} target="_blank" rel="noopener">GitHub</a></li>}
+          {d.links.demo && <li><a class="underline" href={d.links.demo} target="_blank" rel="noopener">Demo</a></li>}
+        </ul>
+      </div>
+    )}
+
+    <Content />
+  </article>
+</Base>

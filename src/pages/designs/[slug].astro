@@ -1,0 +1,95 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const designs = await getCollection("designs");
+  return designs.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await entry.render();
+
+// Helper: pretty date (expects YYYY-MM-DD)
+const prettyDate = (iso?: string) =>
+  iso ? new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short" }) : "";
+---
+
+<Base title={`${d.title} — Designs`} description={d.summary}>
+  <article class="prose prose-zinc max-w-none">
+    <a href="/designs" class="text-sm underline">← Back to Designs</a>
+
+    <header class="mt-2">
+      <h1 class="mb-2">{d.title}</h1>
+      <div class="text-sm text-zinc-600 flex gap-3 flex-wrap">
+        {Array.isArray(d.tool) && d.tool.length > 0 && (
+          <span>Tool: <span class="font-medium text-zinc-800">{d.tool.join(", ")}</span></span>
+        )}
+        {d.date && <span>Updated: <span class="font-medium text-zinc-800">{prettyDate(d.date)}</span></span>}
+      </div>
+    </header>
+
+    {/* Cover image */}
+    {d.cover && (
+      <img
+        src={d.cover}
+        alt={d.title}
+        class="rounded-xl my-4 w-full max-w-xl mx-auto h-auto"
+        loading="lazy"
+        decoding="async"
+      />
+    )}
+
+    {/* Stacked thumbs (top → bottom) */}
+    {Array.isArray(d.thumbs) && d.thumbs.length > 0 && (
+      <div class="my-4 space-y-3">
+        {d.thumbs.map((src: string, i: number) => (
+          <img
+            src={src}
+            alt={`${d.title} image ${i + 1}`}
+            class= "rounded-xl my-4 w-full max-w-xl mx-auto h-auto"
+            loading="lazy"
+            decoding="async"
+          />
+        ))}
+      </div>
+    )}
+
+    {/* STL preview */}
+    {d.stl && d.stlPath && (
+      <div class="my-6">
+        <model-viewer
+          src={d.stlPath}
+          camera-controls
+          interaction-prompt="none"
+          style="width:100%;height:520px;background:#f7f7f7;border-radius:1rem;"
+          exposure=".8"
+          shadow-intensity=".8"
+          ar
+        ></model-viewer>
+        <div class="text-xs text-zinc-500 mt-2">Drag to rotate • Scroll to zoom</div>
+      </div>
+    )}
+
+    {/* Links (only "source" supported) */}
+    {d.links?.source && (
+      <div class="my-4 p-4 bg-gray-50 rounded-lg border">
+        <h2 class="text-lg font-semibold mb-2">Links</h2>
+        <ul class="space-y-1">
+          <li>
+            <a href={d.links.source} target="_blank" rel="noopener" class="underline">
+              Source
+            </a>
+          </li>
+        </ul>
+      </div>
+    )}
+
+    {/* Body content from Markdown */}
+    <Content />
+  </article>
+</Base>
