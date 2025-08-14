@@ -4,8 +4,8 @@ date: "2024-07-01"
 tool: ["Shapr3D", "Fusion 360"]
 summary: "Houses and aligns the IR light pad assembly for consistent, even illumination."
 cover: "/images/ir-light-pad/light-tray-bottom.webp"
-stl: true
-stlPath: "/images/models/stentorcam-light-tray-casing.glb"
+glb: true
+glbPath: "/images/models/stentorcam-light-tray-casing.glb"
 ---
 ## Design Overview
 This casing holds the IR light pad assembly, which consists of an acrylic sheet with diffusion film and IR LEDs wrapped along the edges. The enclosure ensures the components stay aligned, protected, and easy to service.

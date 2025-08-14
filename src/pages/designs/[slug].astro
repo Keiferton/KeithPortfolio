@@ -59,11 +59,11 @@ const prettyDate = (iso?: string) =>
       </div>
     )}
 
-    {/* STL preview */}
-    {d.stl && d.stlPath && (
+    {/* GLB preview */}
+    {d.glb && d.glbPath && (
       <div class="my-6">
         <model-viewer
-          src={d.stlPath}
+          src={d.glbPath}
           camera-controls
           interaction-prompt="none"
           style="width:100%;height:520px;background:#f7f7f7;border-radius:1rem;"

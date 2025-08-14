@@ -4,8 +4,8 @@ date: "2024-07-01"
 tool: ["Shapr3D", "Fusion 360"]
 summary: "Mounts and stabilizes the camera and large lens for clear, consistent imaging."
 cover: "/images/stentorcam-v2/stentor-cam-v2-old-mount.webp"
-stl: true
-stlPath: "/images/models/stentorcam-v2-mount-black.glb"
+glb: true
+glbPath: "/images/models/stentorcam-v2-mount-black.glb"
 ---
 ## Design Overview
 This mount secures the camera and large lens assembly for StentorCam V2, providing the stability and alignment needed for high-quality imaging. The design minimizes vibration, keeps focus consistent, and makes camera installation straightforward.
