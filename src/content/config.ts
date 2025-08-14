@@ -30,8 +30,8 @@ const designs = defineCollection({
     summary: z.string().optional(),
     cover: z.string().optional(),
     thumbs: z.array(z.string()).optional(),
-    stl: z.boolean().default(false),
-    stlPath: z.string().optional(),
+    glb: z.boolean().default(false),
+    glbPath: z.string().optional(),
     links: z.object({
       source: z.string().url().optional(),
     }).optional(),
