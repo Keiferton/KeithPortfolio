@@ -24,7 +24,7 @@ Our team needed an affordable way to illuminate samples for microscopy without t
 - Designed and fabricated a casing to hold acrylic diffusion plates and LED strips.
 
 ## Approach
-We [(Jacob Vazquez)](https://github.com/Jacob9610) disassembled the commercial pad and identified its key components: transparent acrylic, diffusion film, and LEDs.  
+We [(Jacob Vazquez)](https://jacobvazquez.com/) disassembled the commercial pad and identified its key components: transparent acrylic, diffusion film, and LEDs.  
 By swapping in IR LEDs and creating a new casing, I produced a fully functional alternative that was previously unavailable.
 
 ## Result
