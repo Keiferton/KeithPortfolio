@@ -6,7 +6,7 @@ const items = (await getCollection("sidequests"))
   .sort((a,b)=> b.data.date.localeCompare(a.data.date));
 ---
 <Base title="Side Quests — Keith Curry">
-  <h1 class="text-2xl font-bold mb-2">Side Quests (Coming Soon)</h1>
+  <h1 class="text-2xl font-bold mb-2">Side Quests</h1>
   <p class="text-zinc-500 text-sm mb-6">Personal builds, experiments, and fun projects</p>
   <div class="grid md:grid-cols-2 gap-6">
     {items.map(({ slug, data }) => <SimpleCard url={`/side-quests/${slug}/`} data={data} />)}
