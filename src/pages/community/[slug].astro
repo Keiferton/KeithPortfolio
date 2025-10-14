@@ -11,14 +11,14 @@ const { Content } = await entry.render();
 const prettyDate = (iso?: string) => iso ? new Date(iso).toLocaleDateString(undefined,{year:"numeric",month:"short"}) : "";
 ---
 <Base title={`${d.title} — Community`} description={d.summary}>
-  <article class="prose prose-zinc max-w-none">
+  <article class="prose prose-zinc dark:prose-invert max-w-none">
     <a href="/community" class="text-sm underline">← Back to Community & Events</a>
     <header class="mt-2">
       <h1 class="mb-2">{d.title}</h1>
-      <div class="text-sm text-zinc-600 flex gap-3 flex-wrap">
-        {d.org && <span>Org: <span class="font-medium text-zinc-800">{d.org}</span></span>}
-        {d.role && <span>Role: <span class="font-medium text-zinc-800">{d.role}</span></span>}
-        {d.date && <span>When: <span class="font-medium text-zinc-800">{prettyDate(d.date)}</span></span>}
+      <div class="text-sm text-zinc-600 dark:text-zinc-400 flex gap-3 flex-wrap">
+        {d.org && <span>Org: <span class="font-medium text-zinc-800 dark:text-zinc-100">{d.org}</span></span>}
+        {d.role && <span>Role: <span class="font-medium text-zinc-800 dark:text-zinc-100">{d.role}</span></span>}
+        {d.date && <span>When: <span class="font-medium text-zinc-800 dark:text-zinc-100">{prettyDate(d.date)}</span></span>}
       </div>
     </header>
 
@@ -34,11 +34,11 @@ const prettyDate = (iso?: string) => iso ? new Date(iso).toLocaleDateString(unde
 
     {/* Links */}
     {d.links && (d.links.site || d.links.gallery) && (
-      <div class="my-4 p-4 bg-gray-50 rounded-lg border">
+      <div class="my-4 p-4 bg-gray-50 dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-600">
         <h2 class="text-lg font-semibold mb-2">Links</h2>
         <ul class="space-y-1">
-          {d.links.site && <li><a class="underline" href={d.links.site} target="_blank" rel="noopener">Website</a></li>}
-          {d.links.gallery && <li><a class="underline" href={d.links.gallery} target="_blank" rel="noopener">Gallery</a></li>}
+          {d.links.site && <li><a class="underline text-zinc-800 dark:text-zinc-100" href={d.links.site} target="_blank" rel="noopener">Website</a></li>}
+          {d.links.gallery && <li><a class="underline text-zinc-800 dark:text-zinc-100" href={d.links.gallery} target="_blank" rel="noopener">Gallery</a></li>}
         </ul>
       </div>
     )}
