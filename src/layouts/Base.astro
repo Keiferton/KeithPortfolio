@@ -1,7 +1,7 @@
 ---
 const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
 ---
-<html lang="en">
+<html lang="en" class="">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -9,19 +9,31 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
     <meta name="description" content={description} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/kc-favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/kc-favicon.svg" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/svg+xml" href="/kc-favicon-dark.svg" media="(prefers-color-scheme: dark)" />
+    <link rel="mask-icon" href="/kc-favicon.svg" color="#000000">
+
+
+    <!-- Theme color support -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0c0a09" media="(prefers-color-scheme: dark)">
+
+
 
     <!-- <model-viewer> for GLB previews -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   </head>
 
-  <body class="min-h-screen bg-white text-zinc-900">
+  <body class="min-h-screen bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
     <!-- HEADER -->
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b">
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-neutral-950/90 backdrop-blur border-b dark:border-zinc-800">
       <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center gap-3">
         <!-- Brand / Home -->
-        <a href="/" aria-label="Home" title="Home" class="flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-100">
-          <img src="/kc-favicon.svg" alt="KC Logo" class="w-10 h-10" />
+        <a href="/" aria-label="Home" title="Home" class="flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800">
+          <picture> <!-- dark mode support for logo -->
+            <source srcset="/kc-favicon-dark.svg" media="(prefers-color-scheme: dark)" />
+            <img src="/kc-favicon.svg" alt="KC Logo" class="w-10 h-10" />
+          </picture>
           <span class="font-semibold hidden sm:inline"></span>
         </a>
 
@@ -39,6 +51,7 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
 
         <!-- Icons (always visible) -->
         <div class="flex items-center gap-2">
+
           <!-- GitHub -->
           <a
             href="https://github.com/Keiferton"
@@ -46,10 +59,10 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
             rel="noopener noreferrer"
             aria-label="GitHub"
             title="GitHub"
-            class="p-2 rounded-lg hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            class="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                 class="w-5 h-5 text-zinc-700">
+                class="w-5 h-5 text-zinc-700 dark:text-zinc-200">
               <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
                 d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"/>
             </svg>
@@ -62,20 +75,21 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
             rel="noopener noreferrer"
             aria-label="LinkedIn"
             title="LinkedIn"
-            class="p-2 rounded-lg hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            class="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                 class="w-5 h-5 text-zinc-700">
+                class="w-5 h-5 text-zinc-700 dark:text-zinc-200 transition-colors duration-200">
               <circle cx="4.983" cy="5.009" r="2.188" fill="currentColor"></circle>
               <path d="M9.237 8.855v12.139h3.769v-6.003c0-1.584.298-3.118 2.262-3.118 1.937 0 1.961 1.811 1.961 3.218v5.904H21v-6.657c0-3.27-.704-5.783-4.526-5.783-1.835 0-3.065 1.007-3.568 1.96h-.051v-1.66H9.237zm-6.142 0H6.87v12.139H3.095z"
                     fill="currentColor"></path>
             </svg>
           </a>
 
+
           <!-- Mobile menu button -->
           <button
             id="nav-toggle"
-            class="sm:hidden p-2 rounded-lg hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            class="sm:hidden p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label="Open menu"
             aria-expanded="false"
             aria-controls="mobile-menu"
@@ -96,7 +110,7 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
       </nav>
 
       <!-- Mobile menu (hidden on >= sm) -->
-      <div id="mobile-menu" class="sm:hidden hidden border-t">
+      <div id="mobile-menu" class="sm:hidden hidden border-t dark:border-zinc-800">
         <div class="mx-auto max-w-6xl px-4 py-3 grid gap-3">
           <a href="/projects" class="py-2">Projects</a>
           <a href="/designs" class="py-2">Designs</a>
@@ -133,7 +147,7 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
             rel="noopener noreferrer"
             aria-label="GitHub"
             title="GitHub"
-            class="inline-flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            class="inline-flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                  class="w-5 h-5 text-zinc-700">
@@ -150,7 +164,7 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
             rel="noopener noreferrer"
             aria-label="LinkedIn"
             title="LinkedIn"
-            class="inline-flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            class="inline-flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                  class="w-5 h-5 text-zinc-700">

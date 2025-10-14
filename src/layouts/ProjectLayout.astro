@@ -8,20 +8,20 @@ const prettyDate = (iso?: string) =>
   iso ? new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short" }) : "";
 ---
 <Base title={`${data.title} — Projects`} description={data.summary}>
-  <article class="prose prose-zinc max-w-none">
+  <article class="prose prose-zinc dark:prose-invert max-w-none">
     <a href="/projects" class="text-sm underline">← Back to Projects</a>
 
     <header class="mt-2">
       <h1 class="mb-2">{data.title}</h1>
-      <div class="text-sm text-zinc-600 flex gap-3 flex-wrap">
+      <div class="text-sm text-zinc-600 dark:text-zinc-400 flex gap-3 flex-wrap">
         {data.date && (
-          <span>Updated: <span class="font-medium text-zinc-800">{prettyDate(data.date)}</span></span>
+          <span>Updated: <span class="font-medium text-zinc-800 dark:text-zinc-100">{prettyDate(data.date)}</span></span>
         )}
         {Array.isArray(data.tags) && data.tags.length > 0 && (
-          <span>Tags: <span class="font-medium text-zinc-800">{data.tags.join(", ")}</span></span>
+          <span>Tags: <span class="font-medium text-zinc-800 dark:text-zinc-100">{data.tags.join(", ")}</span></span>
         )}
         {Array.isArray(data.tech) && data.tech.length > 0 && (
-          <span>Tech: <span class="font-medium text-zinc-800">{data.tech.join(", ")}</span></span>
+          <span>Tech: <span class="font-medium text-zinc-800 dark:text-zinc-100">{data.tech.join(", ")}</span></span>
         )}
       </div>
     </header>
@@ -38,14 +38,14 @@ const prettyDate = (iso?: string) =>
 
     {/* Links */}
     {data.links && (
-      <div class="my-4 p-4 bg-gray-50 rounded-lg border">
+      <div class="my-4 p-4 bg-gray-50 dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-600">
         <h2 class="text-lg font-semibold mb-2">Links</h2>
         <ul class="space-y-1">
           {data.links.github && (
-            <li><a href={data.links.github} target="_blank" rel="noopener" class="underline">GitHub</a></li>
+            <li><a href={data.links.github} target="_blank" rel="noopener" class="underline text-zinc-800 dark:text-zinc-100">GitHub</a></li>
           )}
           {data.links.demo && (
-            <li><a href={data.links.demo} target="_blank" rel="noopener" class="underline">Demo</a></li>
+            <li><a href={data.links.demo} target="_blank" rel="noopener" class="underline text-zinc-800 dark:text-zinc-100">Demo</a></li>
           )}
         </ul>
       </div>

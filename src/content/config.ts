@@ -64,6 +64,8 @@ const sidequests = defineCollection({
     cover: z.string().optional(),
     thumbs: z.array(z.string()).optional(),
     tags: z.array(z.string()).default([]), // e.g., ["3D printing","Go","electronics"]
+    glb: z.boolean().default(false),
+    glbPath: z.string().optional(),
     links: z.object({
       github: z.string().url().optional(),
       demo: z.string().url().optional(),

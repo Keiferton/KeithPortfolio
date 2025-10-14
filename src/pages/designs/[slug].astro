@@ -20,16 +20,16 @@ const prettyDate = (iso?: string) =>
 ---
 
 <Base title={`${d.title} — Designs`} description={d.summary}>
-  <article class="prose prose-zinc max-w-none">
+  <article class="prose prose-zinc dark:prose-invert max-w-none">
     <a href="/designs" class="text-sm underline">← Back to Designs</a>
 
     <header class="mt-2">
       <h1 class="mb-2">{d.title}</h1>
-      <div class="text-sm text-zinc-600 flex gap-3 flex-wrap">
+      <div class="text-sm text-zinc-600 dark:text-zinc-400 flex gap-3 flex-wrap">
         {Array.isArray(d.tool) && d.tool.length > 0 && (
-          <span>Tool: <span class="font-medium text-zinc-800">{d.tool.join(", ")}</span></span>
+          <span>Tool: <span class="font-medium text-zinc-800 dark:text-zinc-100">{d.tool.join(", ")}</span></span>
         )}
-        {d.date && <span>Updated: <span class="font-medium text-zinc-800">{prettyDate(d.date)}</span></span>}
+        {d.date && <span>Updated: <span class="font-medium text-zinc-800 dark:text-zinc-100">{prettyDate(d.date)}</span></span>}
       </div>
     </header>
 
@@ -71,17 +71,17 @@ const prettyDate = (iso?: string) =>
           shadow-intensity=".8"
           ar
         ></model-viewer>
-        <div class="text-xs text-zinc-500 mt-2">Drag to rotate • Scroll to zoom</div>
+        <div class="text-xs text-zinc-500 dark:text-zinc-400 mt-2">Drag to rotate • Scroll to zoom</div>
       </div>
     )}
 
     {/* Links (only "source" supported) */}
     {d.links?.source && (
-      <div class="my-4 p-4 bg-gray-50 rounded-lg border">
+      <div class="my-4 p-4 bg-gray-50 dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-600">
         <h2 class="text-lg font-semibold mb-2">Links</h2>
         <ul class="space-y-1">
           <li>
-            <a href={d.links.source} target="_blank" rel="noopener" class="underline">
+            <a href={d.links.source} target="_blank" rel="noopener" class="underline text-zinc-800 dark:text-zinc-100">
               Source
             </a>
           </li>
