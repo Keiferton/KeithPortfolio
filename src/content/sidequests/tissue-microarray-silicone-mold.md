@@ -6,6 +6,8 @@ thumbs:
   - "/images/resin-mold-master.jpg"
   - "/images/molds-curing.jpg"
   - "/images/failed-prototype-silicone-mold.jpg"
+  - "/images/good-mold-pic1.jpg"
+  - "/images/good-mold-pic2.jpg"
 tags:
   - "SLA Printing"
   - "Silicone Casting"
