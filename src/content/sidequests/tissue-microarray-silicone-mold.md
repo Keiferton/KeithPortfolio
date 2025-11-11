@@ -3,6 +3,7 @@ title: "Tissue Microarray Silicone Mold"
 date: "2025-10-07"
 summary: "Casting affordable silicone molds for tissue microarrays with SLA-printed masters."
 thumbs:
+  - "/images/Side-By-Side_Molds.png"
   - "/images/resin-mold-master.jpg"
   - "/images/molds-curing.jpg"
   - "/images/failed-prototype-silicone-mold.jpg"
