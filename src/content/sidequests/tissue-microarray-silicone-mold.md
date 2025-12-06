@@ -14,7 +14,7 @@ tags:
   - "Silicone Casting"
   - "Lab Tooling"
 glb: true
-glbPath: "/images/models/3mm-wax-master-mold.glb"
+glbPath: "/images/models/3mm_4mm_MoldiBlocks.glb"
 ---
 
 ### Why build it?
