@@ -1,0 +1,14 @@
+---
+import Base from "@/layouts/Base.astro";
+import SimpleCard from "@/components/SimpleCard.astro";
+import { getCollection } from "astro:content";
+const products = (await getCollection("products"))
+  .sort((a,b)=> b.data.date.localeCompare(a.data.date));
+---
+<Base title="Products — Keith Curry">
+  <h1 class="text-2xl font-bold mb-2">Products</h1>
+  <p class="text-zinc-500 text-sm mb-6">Outcome-focused tools built for external use.</p>
+  <div class="grid md:grid-cols-2 gap-6">
+    {products.map(({ slug, data }) => <SimpleCard url={`/products/${slug}/`} data={data} />)}
+  </div>
+</Base>

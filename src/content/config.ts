@@ -11,6 +11,8 @@ const projects = defineCollection({
     cover: z.string().optional(),
     thumbs: z.array(z.string()).optional(), 
     featured: z.boolean().default(false),
+    glb: z.boolean().default(false),
+    glbPath: z.string().optional(),
     links: z
       .object({
         github: z.string().url().optional(),
@@ -73,4 +75,24 @@ const sidequests = defineCollection({
   }),
 });
 
-export const collections = { projects, designs, community, sidequests };
+const products = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    date: z.string(),
+    summary: z.string().optional(),
+    featured: z.boolean().default(false),
+    cover: z.string().optional(),
+    thumbs: z.array(z.string()).optional(),
+    tags: z.array(z.string()).default([]),
+    glb: z.boolean().default(false),
+    glbPath: z.string().optional(),
+    links: z.object({
+      github: z.string().url().optional(),
+      demo: z.string().url().optional(),
+      site: z.string().url().optional(),
+    }).optional(),
+  }),
+});
+
+export const collections = { projects, designs, community, sidequests, products };

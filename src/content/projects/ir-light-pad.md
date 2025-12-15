@@ -8,6 +8,8 @@ thumbs:
   - "/images/ir-light-pad/light-tray-top.webp"
   - "/images/ir-light-pad/light-tray-bottom.webp"
 cover: "/images/ir-light-pad/ir-illuminated-well-plate.webp"
+glb: true
+glbPath: "/images/models/light_tray.glb"
 featured: true
 links:
   github: "https://github.com/"
