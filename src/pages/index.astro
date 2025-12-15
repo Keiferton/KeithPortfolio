@@ -2,9 +2,28 @@
 import Base from "@/layouts/Base.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import { getCollection } from "astro:content";
-const projects = (await getCollection("projects"))
+const priorityOrder: Record<string, number> = {
+  moldiblocks: 0,
+  "ir-light-pad": 1,
+  "pol-patrol": 2,
+  "stentorcam-v2": 3,
+};
+const featuredProjects = (await getCollection("projects"))
   .filter(p => p.data.featured)
-  .sort((a,b) => b.data.date.localeCompare(a.data.date));
+  .map(p => ({ url: `/projects/${p.slug}/`, data: p.data, slug: p.slug }));
+const featuredProducts = (await getCollection("products"))
+  .filter(p => p.data.featured)
+  .map(p => ({ url: `/products/${p.slug}/`, data: p.data, slug: p.slug }));
+const featured = [...featuredProjects, ...featuredProducts].sort((a, b) => {
+  const aKey = a.slug.toLowerCase();
+  const bKey = b.slug.toLowerCase();
+  const aRank = priorityOrder[aKey];
+  const bRank = priorityOrder[bKey];
+  if (Number.isInteger(aRank) && Number.isInteger(bRank)) return aRank - bRank;
+  if (Number.isInteger(aRank)) return -1;
+  if (Number.isInteger(bRank)) return 1;
+  return b.data.date.localeCompare(a.data.date);
+});
 ---
 <Base title="Keith Curry — Portfolio">
   <section class="mb-10">
@@ -14,10 +33,10 @@ const projects = (await getCollection("projects"))
     </p>
   </section>
   <section>
-    <h2 class="text-xl font-semibold mb-4">Featured Projects</h2>
+    <h2 class="text-xl font-semibold mb-4">Featured</h2>
     <div class="grid md:grid-cols-2 gap-6">
-      {projects.map(({ slug, data }) => (
-        <ProjectCard url={`/projects/${slug}/`} data={data} />
+      {featured.map((item) => (
+        <ProjectCard url={item.url} data={item.data} />
       ))}
     </div>
   </section>
