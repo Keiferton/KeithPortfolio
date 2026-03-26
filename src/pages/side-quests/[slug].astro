@@ -30,7 +30,6 @@ const prettyDate = (iso?: string) => iso ? new Date(iso).toLocaleDateString(unde
         {d.thumbs.map((src: string, i: number) => (
           <figure
             class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-sm aspect-square flex items-center justify-center"
-            key={i}
           >
             <img
               src={src}

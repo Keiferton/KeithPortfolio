@@ -35,7 +35,7 @@ Its modular design makes it easy to replace components or adapt to other experim
 
 ## Gallery
 
-<div class="grid md:grid-cols-3 gap-4">
+<div class="not-prose mt-6 grid gap-4 md:grid-cols-3">
   <img src="/images/ir-light-pad/light-tray-top.webp" alt="Light Tray Top" class="rounded-lg" />
   <img src="/images/ir-light-pad/light-tray-bottom.webp" alt="Light Tray Bottom" class="rounded-lg" />
   <img src="/images/ir-light-pad/ir-illuminated-well-plate.webp" alt="Illuminated Well Plate" class="rounded-lg" />
