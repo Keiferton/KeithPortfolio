@@ -25,9 +25,9 @@ const prettyDate = (iso?: string) => iso ? new Date(iso).toLocaleDateString(unde
     {d.cover && <img src={d.cover} alt={d.title} class="rounded-xl my-4 w-full max-w-xl mx-auto h-auto" />}
 
     {Array.isArray(d.thumbs) && d.thumbs.length > 0 && (
-      <div class="my-4 space-y-3">
+      <div class="my-4 space-y-4">
         {d.thumbs.map((src: string, i: number) => (
-          <img src={src} alt={`${d.title} image ${i+1}`} class="rounded-xl my-4 w-full max-w-xl mx-auto h-auto" loading="lazy" />
+          <img src={src} alt={`${d.title} image ${i+1}`} class="rounded-xl w-full max-w-xl mx-auto h-auto" loading="lazy" decoding="async" />
         ))}
       </div>
     )}

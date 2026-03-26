@@ -46,7 +46,6 @@ const prettyDate = (iso?: string) => iso ? new Date(iso).toLocaleDateString(unde
         {d.thumbs.map((src: string, i: number) => (
           <figure
             class="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-sm aspect-square flex items-center justify-center"
-            key={i}
           >
             <img
               src={src}
@@ -57,20 +56,6 @@ const prettyDate = (iso?: string) => iso ? new Date(iso).toLocaleDateString(unde
             />
           </figure>
         ))}
-      </div>
-    )}
-
-    {d.glb && d.glbPath && (
-      <div class="my-6">
-        <model-viewer
-          src={d.glbPath}
-          camera-controls
-          interaction-prompt="none"
-          style="width:100%;height:420px;background:#f7f7f7;border-radius:1rem;"
-          exposure=".8"
-          shadow-intensity=".8"
-        ></model-viewer>
-        <div class="text-xs text-zinc-500 dark:text-zinc-400 mt-2">Drag to rotate • Scroll to zoom</div>
       </div>
     )}
 

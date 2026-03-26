@@ -3,9 +3,9 @@ const { data, url } = Astro.props;
 const glbPath = data.glbPath ?? null;
 ---
 
-<div class="group block rounded-2xl border p-4 hover:shadow-lg transition">
+<div class="group flex h-full flex-col rounded-2xl border p-4 hover:shadow-lg transition">
   <!-- Not clickable -->
-  <div class="mb-3 rounded-xl overflow-hidden" style="width:100%;height:220px;">
+  <div class="mb-3 aspect-[4/3] overflow-hidden rounded-xl bg-zinc-50 dark:bg-zinc-800/60">
     <model-viewer
       src={glbPath}
       camera-controls
@@ -17,7 +17,7 @@ const glbPath = data.glbPath ?? null;
   </div>
 
   <!-- Clickable section -->
-  <a href={url} class="block">
+  <a href={url} class="block flex-1">
     <h3 class="font-semibold">{data.title}</h3>
 
     {data.summary && (
