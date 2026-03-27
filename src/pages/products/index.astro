@@ -5,7 +5,7 @@ import { getCollection } from "astro:content";
 const products = (await getCollection("products"))
   .sort((a,b)=> b.data.date.localeCompare(a.data.date));
 ---
-<Base title="Products — Keith Curry">
+<Base title="Products — Keith Curry" description="Products and external-facing tools built by Keith Curry.">
   <h1 class="text-2xl font-bold mb-2">Products</h1>
   <p class="text-zinc-500 text-sm mb-6">Outcome-focused tools built for external use.</p>
   <div class="grid md:grid-cols-2 gap-6">

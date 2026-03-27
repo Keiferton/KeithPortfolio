@@ -5,7 +5,7 @@ import { getCollection } from "astro:content";
 const projects = (await getCollection("projects"))
   .sort((a,b)=> b.data.date.localeCompare(a.data.date));
 ---
-<Base title="Projects — Keith Curry">
+<Base title="Projects — Keith Curry" description="Project case studies covering research tools, imaging systems, and software engineering work by Keith Curry.">
   <h1 class="text-2xl font-bold mb-2">Projects</h1>
   <p class="text-zinc-500 text-sm mb-6">View project highlights, updates, and outcomes</p>
   <div class="grid md:grid-cols-2 gap-6">

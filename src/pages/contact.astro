@@ -1,8 +1,57 @@
 ---
 import Base from "@/layouts/Base.astro";
+import { siteMeta } from "@/lib/site";
 ---
-<Base title="Contact — Keith Curry">
-  <h1 class="text-2xl font-bold mb-4">Contact</h1>
-  <p><a class="underline" href="mailto:kcurry@keifh.com">kcurry@keifh.com</a></p>
-  <p><a class="underline" href="https://www.linkedin.com/in/keithcurrysf/" target="_blank">LinkedIn</a></p>
+<Base title="Contact — Keith Curry" description="Get in touch with Keith Curry about software engineering roles, collaborations, and research tooling work.">
+  <section class="mx-auto max-w-3xl">
+    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">Contact</p>
+    <h1 class="mt-3 text-3xl font-bold tracking-tight">Let&apos;s talk.</h1>
+    <p class="mt-3 max-w-2xl text-zinc-600 dark:text-zinc-300">
+      I&apos;m happy to talk about software engineering roles, research tooling, hardware projects, and community work.
+    </p>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+      <a
+        class="group rounded-2xl border border-zinc-200 p-5 transition hover:shadow-lg dark:border-zinc-700"
+        href={`mailto:${siteMeta.email}`}
+      >
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">Email</p>
+        <p class="mt-2 font-semibold">{siteMeta.email}</p>
+        <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">Best for roles, collaborations, and general inquiries.</p>
+      </a>
+
+      <a
+        class="group rounded-2xl border border-zinc-200 p-5 transition hover:shadow-lg dark:border-zinc-700"
+        href={siteMeta.links.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">LinkedIn</p>
+        <p class="mt-2 font-semibold">Connect professionally</p>
+        <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">A good option for career conversations and follow-up.</p>
+      </a>
+
+      <a
+        class="group rounded-2xl border border-zinc-200 p-5 transition hover:shadow-lg dark:border-zinc-700"
+        href={siteMeta.links.github}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">GitHub</p>
+        <p class="mt-2 font-semibold">Browse code and experiments</p>
+        <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">Useful if you want to see implementation details beyond the portfolio.</p>
+      </a>
+
+      <a
+        class="group rounded-2xl border border-zinc-200 p-5 transition hover:shadow-lg dark:border-zinc-700"
+        href="/KeithCurry_Resume.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <p class="text-sm text-zinc-500 dark:text-zinc-400">Resume</p>
+        <p class="mt-2 font-semibold">Download the quick summary</p>
+        <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">A concise view of experience, technical focus, and recent work.</p>
+      </a>
+    </div>
+  </section>
 </Base>

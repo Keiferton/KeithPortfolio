@@ -1,8 +1,10 @@
 ---
 import Base from "@/layouts/Base.astro";
+import ContactCTA from "@/components/ContactCTA.astro";
+import { siteMeta } from "@/lib/site";
 ---
-<Base title="About — Keith Curry" description="About Keith Curry">
-  <section class="mx-auto max-w-2xl">
+<Base title="About — Keith Curry" description="About Keith Curry and the kind of software, tooling, and hardware work he is pursuing.">
+  <section class="mx-auto max-w-3xl">
     <img
       src="/images/profile.webp"
       alt="Keith Curry headshot"
@@ -13,19 +15,63 @@ import Base from "@/layouts/Base.astro";
 
     <h1 class="text-2xl font-bold text-center mb-4">Hi, I’m Keith</h1>
     <p class="text-zinc-700 dark:text-zinc-300 mb-6">
-      I’m a <strong>Computer Science and Biology</strong> major, researcher, and maker passionate about <strong>3D printing</strong>, 
-      programming, and interdisciplinary innovation. My work combines bioengineering, computer science, 
-      and hardware development to create accessible technology for research and education.
+    I’m a <strong>Computer Science (B.S.) and Biology (B.A.) graduate</strong> focused on building low-cost, 
+    reproducible systems for research. My work sits at the boundary of <strong>hardware</strong>, 
+    <strong>software</strong>, and experimental workflows.
     </p>
+
     <p class="text-zinc-700 dark:text-zinc-300 mb-6">
-      As a <strong>Software Engineering Intern at Fastly</strong>, I worked on the Cloud and Container Services Team developing 
-      internal tooling and managing <strong>Kubernetes</strong> infrastructure to improve deployment reliability and policy compliance.
+      I’ve engineered systems that repurpose <strong>3D printers into automated microscopes</strong>, built 
+      <strong>infrared imaging platforms</strong> for photosensitive organisms, and designed reusable mold systems 
+      that reduce the cost of tissue microarray recipient block fabrication by over <strong>90%</strong>.
+    </p>
+
+    <p class="text-zinc-700 dark:text-zinc-300 mb-6">
+      As a <strong>Software Engineering Intern at Fastly</strong>, I worked on Cloud and Container Services, 
+      developing internal tooling and improving <strong>Kubernetes</strong>-based infrastructure. I built systems 
+      to monitor policy compliance across production workloads and contributed to migrating clusters to 
+      standardized GitOps workflows.
+    </p>
+
+    <p class="text-zinc-700 dark:text-zinc-300 mb-6">
+      I serve as an <strong>Industry & Academic Chair</strong> on the board of the <strong>Internet Society 
+      San Francisco Bay Area Chapter</strong>, helping connect students with industry and supporting initiatives 
+      around internet infrastructure and access.
+    </p>
+
+    <p class="text-zinc-700 dark:text-zinc-300">
+      I’m interested in how systems break at their interfaces and how to make them more reliable, accessible, 
+      and easier to reproduce.
     </p>
 
     <div class="flex justify-center gap-3">
-      <a href="https://github.com/Keiferton" target="_blank" class="underline">GitHub</a>
-      <a href="https://www.linkedin.com/in/keithcurrysf/" target="_blank" class="underline">LinkedIn</a>
-      <a href="/resume.pdf" class="underline">Resume</a>
+      <a href={siteMeta.links.github} target="_blank" rel="noopener noreferrer" class="underline">GitHub</a>
+      <a href={siteMeta.links.linkedin} target="_blank" rel="noopener noreferrer" class="underline">LinkedIn</a>
+      <a href="/KeithCurry_Resume.pdf" class="underline">Resume</a>
+    </div>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2">
+      <div class="rounded-2xl border border-zinc-200 p-5 dark:border-zinc-700">
+        <h2 class="text-lg font-semibold">How I like to work</h2>
+        <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+          I do my best work on ambiguous problems that need fast prototyping, careful iteration, and comfort moving
+          between software and physical constraints.
+        </p>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 p-5 dark:border-zinc-700">
+        <h2 class="text-lg font-semibold">What I&apos;m looking for</h2>
+        <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+          Software engineering, platform/tooling, and research-enablement roles where code, infrastructure, and
+          hardware intersect.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-10">
+      <ContactCTA
+        title="Want to talk about a role or collaboration?"
+        body="I am especially interested in opportunities that blend software engineering with tooling, infrastructure, research, or physical prototyping."
+      />
     </div>
   </section>
 </Base>
