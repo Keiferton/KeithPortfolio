@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import ContactCTA from "@/components/ContactCTA.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -13,13 +14,14 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const d = entry.data;
 const { Content } = await entry.render();
+const previewImage = d.cover ?? d.thumbs?.[0];
 
 // Helper: pretty date (expects YYYY-MM-DD)
 const prettyDate = (iso?: string) =>
   iso ? new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short" }) : "";
 ---
 
-<Base title={`${d.title} — Designs`} description={d.summary}>
+<Base title={`${d.title} — Designs`} description={d.summary} image={previewImage} type="article">
   <article class="prose prose-zinc dark:prose-invert max-w-none">
     <a href="/designs" class="text-sm underline">← Back to Designs</a>
 
@@ -91,5 +93,9 @@ const prettyDate = (iso?: string) =>
 
     {/* Body content from Markdown */}
     <Content />
+
+    <div class="not-prose mt-10">
+      <ContactCTA />
+    </div>
   </article>
 </Base>

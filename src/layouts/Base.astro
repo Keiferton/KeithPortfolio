@@ -1,12 +1,40 @@
 ---
-const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
+import { siteMeta } from "@/lib/site";
+
+const {
+  title = siteMeta.name,
+  description = siteMeta.description,
+  image = siteMeta.defaultImage,
+  type = "website",
+  noindex = false,
+  jsonLd = [],
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL(siteMeta.url);
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const socialImage = image ? new URL(image, siteUrl).toString() : undefined;
+const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
 ---
-<html lang="en" class="">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? "noindex,nofollow" : "index,follow"} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:site_name" content={siteMeta.name} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {socialImage && <meta property="og:image" content={socialImage} />}
+
+    <meta name="twitter:card" content={socialImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {socialImage && <meta name="twitter:image" content={socialImage} />}
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/kc-favicon.svg" media="(prefers-color-scheme: light)" />
@@ -29,6 +57,10 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
 
     <!-- <model-viewer> for GLB previews -->
     <script is:inline type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    {jsonLdItems.map((item) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(item)}></script>
+    ))}
   </head>
 
   <body class="min-h-screen bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
@@ -41,17 +73,15 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
             <source srcset="/kc-favicon-dark.svg" media="(prefers-color-scheme: dark)" />
             <img src="/kc-favicon.svg" alt="KC Logo" class="w-10 h-10" />
           </picture>
-          <span class="font-semibold hidden sm:inline"></span>
+          <span class="font-semibold hidden sm:inline">{siteMeta.name}</span>
         </a>
 
         <!-- Desktop nav -->
         <div class="hidden sm:flex items-center gap-6">
-          <a href="/projects">Projects</a>
-          <a href="/designs">Designs</a>
-          <a href="/products">Products</a>
-          <a href="/community">Community & Events</a>
-          <a href="/side-quests">Side Quests</a>
+          <a href="/work">Works</a>
+          <a href="/community">Community</a>
           <a href="/about">About</a>
+          <a href="/contact">Contact</a>
         </div>
 
         <!-- Spacer -->
@@ -59,10 +89,17 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
 
         <!-- Icons (always visible) -->
         <div class="flex items-center gap-2">
+          <a
+            href="/KeithCurry_Resume.pdf"
+            download
+            class="hidden sm:inline-flex items-center rounded-full border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-800 transition hover:bg-zinc-100 dark:border-zinc-600 dark:text-zinc-100 dark:hover:bg-zinc-800"
+          >
+            Download Resume
+          </a>
 
           <!-- GitHub -->
           <a
-            href="https://github.com/Keiferton"
+            href={siteMeta.links.github}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
@@ -78,7 +115,7 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
 
           <!-- LinkedIn -->
           <a
-            href="https://www.linkedin.com/in/keithcurrysf/"
+            href={siteMeta.links.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
@@ -120,12 +157,11 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
       <!-- Mobile menu (hidden on >= sm) -->
       <div id="mobile-menu" class="sm:hidden hidden border-t dark:border-zinc-800">
         <div class="mx-auto max-w-6xl px-4 py-3 grid gap-3">
-          <a href="/projects" class="py-2">Projects</a>
-          <a href="/designs" class="py-2">Designs</a>
-          <a href="/products" class="py-2">Products</a>
-          <a href="/community" class="py-2">Community & Events</a>
-          <a href="/side-quests" class="py-2">Side Quests</a>
+          <a href="/work" class="py-2">Works</a>
+          <a href="/community" class="py-2">Community</a>
           <a href="/about" class="py-2">About</a>
+          <a href="/contact" class="py-2">Contact</a>
+          <a href="/KeithCurry_Resume.pdf" download class="py-2">Download Resume</a>
         </div>
       </div>
     </header>
@@ -145,13 +181,14 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
 
         <!-- stacked on mobile, row on desktop -->
         <div class="flex flex-col items-center gap-3 text-center sm:flex-row sm:items-center sm:gap-5 sm:text-left">
-          <a href="mailto:kcurry@keifh.com" class="underline">Email</a>
-          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" class="underline">Resume</a>
-          <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" class="underline">Curriculum Vitae (CV)</a>
+          <a href="/contact" class="underline">Contact</a>
+          <a href={`mailto:${siteMeta.email}`} class="underline">Email</a>
+          <a href="/KeithCurry_Resume.pdf" target="_blank" rel="noopener noreferrer" class="underline">Resume</a>
+          <a href="/KeithCurry_CV.pdf" target="_blank" rel="noopener noreferrer" class="underline">Curriculum Vitae (CV)</a>
 
           <!-- GitHub (icon + label) -->
           <a
-            href="https://github.com/Keiferton"
+            href={siteMeta.links.github}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
@@ -168,7 +205,7 @@ const { title = "Keith Curry", description = "Portfolio" } = Astro.props;
 
           <!-- LinkedIn (icon + label) -->
           <a
-            href="https://www.linkedin.com/in/keithcurrysf/"
+            href={siteMeta.links.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"

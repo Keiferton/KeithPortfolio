@@ -1,7 +1,7 @@
 ---
 title: "3D Printing and Design Club"
 date: "2024-08-28"
-summary: "Founded and lead SFSU's first 3D Printing club; teaching students design and printing skills"
+summary: "Founded and led SFSU's first 3D Printing club; teaching students design and printing skills"
 cover: "/images/community/3d-printing-club/3d-printing-club-autodesk.webp"
 org: "3D Printing and Design Club @ SFSU"
 role: "Founder & President"

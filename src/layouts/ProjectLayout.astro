@@ -1,13 +1,14 @@
 ---
 import Base from "@/layouts/Base.astro";
 import Acknowledgments from "@/components/Acknowledgments.astro";
+import ContactCTA from "@/components/ContactCTA.astro";
 
 const { data, Content } = Astro.props;
 
 const prettyDate = (iso?: string) =>
   iso ? new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short" }) : "";
 ---
-<Base title={`${data.title} — Projects`} description={data.summary}>
+<Base title={`${data.title} — Projects`} description={data.summary} image={data.cover ?? data.thumbs?.[0]} type="article">
   <article class="prose prose-zinc dark:prose-invert max-w-none">
     <a href="/projects" class="text-sm underline">← Back to Projects</a>
 
@@ -69,5 +70,9 @@ const prettyDate = (iso?: string) =>
 
     {/* Auto-acknowledgment for Esquerra Lab projects */}
     {data.categories?.includes("Esquerra Lab") && <Acknowledgments />}
+
+    <div class="not-prose mt-10">
+      <ContactCTA />
+    </div>
   </article>
 </Base>
