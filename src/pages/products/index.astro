@@ -6,9 +6,17 @@ const products = (await getCollection("products"))
   .sort((a,b)=> b.data.date.localeCompare(a.data.date));
 ---
 <Base title="Products — Keith Curry" description="Products and external-facing tools built by Keith Curry.">
-  <h1 class="text-2xl font-bold mb-2">Products</h1>
-  <p class="text-zinc-500 text-sm mb-6">Outcome-focused tools built for external use.</p>
-  <div class="grid md:grid-cols-2 gap-6">
-    {products.map(({ slug, data }) => <SimpleCard url={`/products/${slug}/`} data={data} />)}
+  <section class="archive-hero">
+    <p class="page-eyebrow">Works / Products</p>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">Products</h1>
+    <p class="lede mt-4 max-w-2xl">External-facing builds intended for repeated use beyond a single experiment or internal prototype.</p>
+    <div class="archive-tags">
+      <span class="folio-chip">Reusable systems</span>
+      <span class="folio-chip">Lab tooling</span>
+      <span class="folio-chip">Outcome focused</span>
+    </div>
+  </section>
+  <div class="mt-10 grid md:grid-cols-2 gap-6">
+    {products.map(({ slug, data }) => <SimpleCard url={`/products/${slug}/`} data={data} eyebrow="Product Build" />)}
   </div>
 </Base>

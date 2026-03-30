@@ -5,60 +5,73 @@ import { siteMeta } from "@/lib/site";
 ---
 <Base title="About — Keith Curry" description="About Keith Curry and the kind of software, tooling, and hardware work he is pursuing.">
   <section class="mx-auto max-w-3xl">
-    <img
-      src="/images/profile.webp"
-      alt="Keith Curry headshot"
-      class="w-28 h-28 rounded-full mx-auto mb-6 ring-1 ring-zinc-200"
-      loading="lazy"
-      decoding="async"
-    />
+    <div class="surface-panel px-6 py-8 sm:px-8 sm:py-10">
+      <p class="page-eyebrow">About</p>
+      <div class="mt-5 flex flex-col gap-6 sm:flex-row sm:items-start">
+        <img
+          src="/images/profile.webp"
+          alt="Keith Curry headshot"
+          class="h-28 w-28 rounded-[28px] border border-[var(--line)] object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+        <div>
+          <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">Hi, I&apos;m Keith.</h1>
+          <p class="lede mt-4 max-w-2xl">
+            I build low-cost, reproducible systems for research, working at the boundary of hardware,
+            software, and experimental workflows.
+          </p>
+        </div>
+      </div>
 
-    <h1 class="text-2xl font-bold text-center mb-4">Hi, I’m Keith</h1>
-    <p class="text-zinc-700 dark:text-zinc-300 mb-6">
-    I’m a <strong>Computer Science (B.S.) and Biology (B.A.) graduate</strong> focused on building low-cost, 
-    reproducible systems for research. My work sits at the boundary of <strong>hardware</strong>, 
-    <strong>software</strong>, and experimental workflows.
-    </p>
+      <div class="mt-8 space-y-6">
+        <p class="text-zinc-700 dark:text-zinc-300">
+          I’m a <strong>Computer Science (B.S.) and Biology (B.A.) graduate</strong> focused on building low-cost,
+          reproducible systems for research. My work sits at the boundary of <strong>hardware</strong>,
+          <strong>software</strong>, and experimental workflows.
+        </p>
 
-    <p class="text-zinc-700 dark:text-zinc-300 mb-6">
-      I’ve engineered systems that repurpose <strong>3D printers into automated microscopes</strong>, built 
-      <strong>infrared imaging platforms</strong> for photosensitive organisms, and designed reusable mold systems 
-      that reduce the cost of tissue microarray recipient block fabrication by over <strong>90%</strong>.
-    </p>
+        <p class="text-zinc-700 dark:text-zinc-300">
+          I’ve engineered systems that repurpose <strong>3D printers into automated microscopes</strong>, built
+          <strong>infrared imaging platforms</strong> for photosensitive organisms, and designed reusable mold systems
+          that reduce the cost of tissue microarray recipient block fabrication by over <strong>90%</strong>.
+        </p>
 
-    <p class="text-zinc-700 dark:text-zinc-300 mb-6">
-      As a <strong>Software Engineering Intern at Fastly</strong>, I worked on Cloud and Container Services, 
-      developing internal tooling and improving <strong>Kubernetes</strong>-based infrastructure. I built systems 
-      to monitor policy compliance across production workloads and contributed to migrating clusters to 
-      standardized GitOps workflows.
-    </p>
+        <p class="text-zinc-700 dark:text-zinc-300">
+          As a <strong>Software Engineering Intern at Fastly</strong>, I worked on Cloud and Container Services,
+          developing internal tooling and improving <strong>Kubernetes</strong>-based infrastructure. I built systems
+          to monitor policy compliance across production workloads and contributed to migrating clusters to
+          standardized GitOps workflows.
+        </p>
 
-    <p class="text-zinc-700 dark:text-zinc-300 mb-6">
-      I serve as an <strong>Industry & Academic Chair</strong> on the board of the <strong>Internet Society 
-      San Francisco Bay Area Chapter</strong>, helping connect students with industry and supporting initiatives 
-      around internet infrastructure and access.
-    </p>
+        <p class="text-zinc-700 dark:text-zinc-300">
+          I serve as an <strong>Industry & Academic Chair</strong> on the board of the <strong>Internet Society
+          San Francisco Bay Area Chapter</strong>, helping connect students with industry and supporting initiatives
+          around internet infrastructure and access.
+        </p>
 
-    <p class="text-zinc-700 dark:text-zinc-300">
-      I’m interested in how systems break at their interfaces and how to make them more reliable, accessible, 
-      and easier to reproduce.
-    </p>
+        <p class="text-zinc-700 dark:text-zinc-300">
+          I’m interested in how systems break at their interfaces and how to make them more reliable, accessible,
+          and easier to reproduce.
+        </p>
+      </div>
 
-    <div class="flex justify-center gap-3">
-      <a href={siteMeta.links.github} target="_blank" rel="noopener noreferrer" class="underline">GitHub</a>
-      <a href={siteMeta.links.linkedin} target="_blank" rel="noopener noreferrer" class="underline">LinkedIn</a>
-      <a href="/KeithCurry_Resume.pdf" class="underline">Resume</a>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={siteMeta.links.github} target="_blank" rel="noopener noreferrer" class="button-secondary inline-flex items-center px-4 py-2 text-sm">GitHub</a>
+        <a href={siteMeta.links.linkedin} target="_blank" rel="noopener noreferrer" class="button-secondary inline-flex items-center px-4 py-2 text-sm">LinkedIn</a>
+        <a href="/KeithCurry_Resume.pdf" class="button-primary inline-flex items-center px-4 py-2 text-sm">Resume</a>
+      </div>
     </div>
 
     <div class="mt-10 grid gap-4 sm:grid-cols-2">
-      <div class="rounded-2xl border border-zinc-200 p-5 dark:border-zinc-700">
+      <div class="surface-panel p-5">
         <h2 class="text-lg font-semibold">How I like to work</h2>
         <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
           I do my best work on ambiguous problems that need fast prototyping, careful iteration, and comfort moving
           between software and physical constraints.
         </p>
       </div>
-      <div class="rounded-2xl border border-zinc-200 p-5 dark:border-zinc-700">
+      <div class="surface-panel p-5">
         <h2 class="text-lg font-semibold">What I&apos;m looking for</h2>
         <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
           Software engineering, platform/tooling, and research-enablement roles where code, infrastructure, and
@@ -70,7 +83,7 @@ import { siteMeta } from "@/lib/site";
     <div class="mt-10">
       <ContactCTA
         title="Want to talk about a role or collaboration?"
-        body="I am especially interested in opportunities that blend software engineering with tooling, infrastructure, research, or physical prototyping."
+        body="I&apos;m interested in roles and projects that combine software with tooling, infrastructure, research, or physical prototyping."
       />
     </div>
   </section>

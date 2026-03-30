@@ -6,9 +6,17 @@ const items = (await getCollection("community"))
   .sort((a,b)=> b.data.date.localeCompare(a.data.date));
 ---
 <Base title="Community — Keith Curry" description="Community work, events, and organizing experience by Keith Curry.">
-  <h1 class="text-2xl font-bold mb-2">Community</h1>
-  <p class="text-zinc-500 text-sm mb-6">Catch up on events, talks, and community efforts</p>
-  <div class="grid md:grid-cols-2 gap-6">
-    {items.map(({ slug, data }) => <SimpleCard url={`/community/${slug}/`} data={data} />)}
+  <section class="archive-hero">
+    <p class="page-eyebrow">Community</p>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">Community</h1>
+    <p class="lede mt-4 max-w-2xl">Events, organizing, and public-facing work around engineering, AI, and internet infrastructure.</p>
+    <div class="archive-tags">
+      <span class="folio-chip">Events</span>
+      <span class="folio-chip">Leadership</span>
+      <span class="folio-chip">Public engagement</span>
+    </div>
+  </section>
+  <div class="mt-10 grid md:grid-cols-2 gap-6">
+    {items.map(({ slug, data }) => <SimpleCard url={`/community/${slug}/`} data={data} eyebrow="Community" />)}
   </div>
 </Base>
