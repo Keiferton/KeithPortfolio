@@ -6,9 +6,17 @@ const items = (await getCollection("sidequests"))
   .sort((a,b)=> b.data.date.localeCompare(a.data.date));
 ---
 <Base title="Side Quests — Keith Curry" description="Experiments, prototypes, and side projects by Keith Curry.">
-  <h1 class="text-2xl font-bold mb-2">Side Quests</h1>
-  <p class="text-zinc-500 text-sm mb-6">Personal builds, experiments, and fun projects</p>
-  <div class="grid md:grid-cols-2 gap-6">
-    {items.map(({ slug, data }) => <SimpleCard url={`/side-quests/${slug}/`} data={data} />)}
+  <section class="archive-hero">
+    <p class="page-eyebrow">Works / Side Quests</p>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">Side Quests</h1>
+    <p class="lede mt-4 max-w-2xl">Smaller experiments and fast prototypes that show how I test ideas outside formal project tracks.</p>
+    <div class="archive-tags">
+      <span class="folio-chip">Experiments</span>
+      <span class="folio-chip">Fast builds</span>
+      <span class="folio-chip">Curiosity driven</span>
+    </div>
+  </section>
+  <div class="mt-10 grid md:grid-cols-2 gap-6">
+    {items.map(({ slug, data }) => <SimpleCard url={`/side-quests/${slug}/`} data={data} eyebrow="Experiment" />)}
   </div>
 </Base>

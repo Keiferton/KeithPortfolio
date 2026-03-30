@@ -7,11 +7,19 @@ const designs = (await getCollection("designs"))
   .sort((a, b) => b.data.date.localeCompare(a.data.date));
 ---
 <Base title="Designs — Keith Curry" description="3D designs, printable parts, and mechanical prototypes by Keith Curry.">
-  <h1 class="text-2xl font-bold mb-2">Designs</h1>
-  <p class="text-zinc-500 text-sm mb-6">Interact with each model — drag to rotate • scroll to zoom</p>
-  <div class="grid md:grid-cols-2 gap-6">
+  <section class="archive-hero">
+    <p class="page-eyebrow">Works / Designs</p>
+    <h1 class="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">Designs</h1>
+    <p class="lede mt-4 max-w-2xl">Printable parts, enclosures, and mechanical iterations that support larger systems in the lab and beyond.</p>
+    <div class="archive-tags">
+      <span class="folio-chip">CAD files</span>
+      <span class="folio-chip">Fabrication support</span>
+      <span class="folio-chip">Interactive models</span>
+    </div>
+  </section>
+  <div class="mt-10 grid md:grid-cols-2 gap-6">
     {designs.map(({ slug, data }) => (
-      <DesignCard url={`/designs/${slug}/`} data={data} />
+      <DesignCard url={`/designs/${slug}/`} data={data} eyebrow="Design File" />
     ))}
   </div>
 </Base>

@@ -14,54 +14,70 @@ const sections = [
     title: "Projects",
     href: "/projects",
     count: projects.length,
+    eyebrow: "Case Studies",
+    accent: "#b55a34",
     summary: "Case studies covering research automation, imaging systems, and software engineering work.",
   },
   {
     title: "Products",
     href: "/products",
     count: products.length,
-    summary: "External-facing tools and builds intended for repeated use beyond a single experiment.",
+    eyebrow: "Products",
+    accent: "#c57a3c",
+    summary: "Tools and builds meant to be reused, not just tested once.",
   },
   {
     title: "Designs",
     href: "/designs",
     count: designs.length,
+    eyebrow: "CAD + Fabrication",
+    accent: "#315d68",
     summary: "Printable parts, mechanical iterations, and CAD work that support larger systems.",
   },
   {
     title: "Side Quests",
     href: "/side-quests",
     count: sidequests.length,
-    summary: "Experiments and fast prototypes that show how I explore ideas outside formal project tracks.",
+    eyebrow: "Experiments",
+    accent: "#607744",
+    summary: "Smaller experiments and quick prototypes outside longer project work.",
   },
 ];
 ---
 
 <Base title="Works — Keith Curry" description="Browse Keith Curry's portfolio work across projects, products, designs, and side quests.">
-  <section class="max-w-4xl">
-    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">Works</p>
-    <h1 class="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">A directory of software, research tooling, and fabrication work.</h1>
-    <p class="mt-4 max-w-2xl text-base text-zinc-600 dark:text-zinc-300">
-      Browse the portfolio by format depending on whether you want full case studies, product-style builds, design files, or smaller experimental work.
+  <section class="surface-panel archive-hero px-6 py-8 sm:px-8 sm:py-10">
+    <p class="page-eyebrow">Work</p>
+    <h1 class="display-title mt-4">Work organized by type.</h1>
+    <p class="lede mt-5 max-w-2xl">
+      This is the same portfolio split into case studies, products, design files, and smaller experiments.
     </p>
+    <div class="archive-tags">
+      <span class="folio-chip">Research tooling</span>
+      <span class="folio-chip">Infrastructure</span>
+      <span class="folio-chip">Fabrication</span>
+      <span class="folio-chip">Experiments</span>
+    </div>
   </section>
 
   <section class="mt-10 grid gap-6 md:grid-cols-2">
-    {sections.map((section) => (
+    {sections.map((section, index) => (
       <a
         href={section.href}
-        class="group rounded-2xl border border-zinc-200 p-6 transition hover:shadow-lg dark:border-zinc-700"
+        class="directory-card group"
+        style={`--card-accent:${section.accent};`}
       >
         <div class="flex items-start justify-between gap-4">
           <div>
-            <h2 class="text-xl font-semibold group-hover:underline">{section.title}</h2>
-            <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">{section.summary}</p>
+            <p class="page-eyebrow">{String(index + 1).padStart(2, "0")} / {section.eyebrow}</p>
+            <h2 class="mt-3 text-2xl font-semibold tracking-tight group-hover:underline">{section.title}</h2>
+            <p class="mt-3 text-sm text-zinc-700 dark:text-zinc-300">{section.summary}</p>
           </div>
-          <span class="rounded-full border border-zinc-200 px-3 py-1 text-sm font-medium text-zinc-700 dark:border-zinc-600 dark:text-zinc-200">
+          <span class="directory-count">
             {section.count}
           </span>
         </div>
-        <p class="mt-6 text-sm font-medium text-zinc-700 dark:text-zinc-200">View {section.title} →</p>
+        <p class="directory-link">View {section.title} →</p>
       </a>
     ))}
   </section>

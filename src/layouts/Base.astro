@@ -1,5 +1,6 @@
 ---
 import { siteMeta } from "@/lib/site";
+import "@/styles/global.css";
 
 const {
   title = siteMeta.name,
@@ -14,6 +15,11 @@ const siteUrl = Astro.site ?? new URL(siteMeta.url);
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 const socialImage = image ? new URL(image, siteUrl).toString() : undefined;
 const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
+const themeOptions = [
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+  { value: "system", label: "System" },
+];
 ---
 <html lang="en">
   <head>
@@ -40,11 +46,81 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
     <link rel="icon" type="image/svg+xml" href="/kc-favicon.svg" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/svg+xml" href="/kc-favicon-dark.svg" media="(prefers-color-scheme: dark)" />
     <link rel="mask-icon" href="/kc-favicon.svg" color="#000000">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
 
 
     <!-- Theme color support -->
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#0c0a09" media="(prefers-color-scheme: dark)">
+    <meta id="theme-color-meta" name="theme-color" content="#f0eadf" />
+
+    <script is:inline>
+      (() => {
+        const storageKey = "kc-theme-preference";
+        const doc = document.documentElement;
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+        const getStoredPreference = () => {
+          try {
+            const stored = localStorage.getItem(storageKey);
+            return stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
+          } catch {
+            return "system";
+          }
+        };
+
+        const getResolvedTheme = (preference) => {
+          if (preference === "system") {
+            return mediaQuery.matches ? "dark" : "light";
+          }
+          return preference;
+        };
+
+        const applyTheme = (preference) => {
+          const resolved = getResolvedTheme(preference);
+          doc.dataset.theme = preference;
+          doc.classList.toggle("dark", resolved === "dark");
+          doc.style.colorScheme = resolved;
+
+          const themeMeta = document.getElementById("theme-color-meta");
+          if (themeMeta) {
+            themeMeta.setAttribute("content", resolved === "dark" ? "#16120f" : "#f0eadf");
+          }
+
+          const logo = document.getElementById("site-logo");
+          if (logo) {
+            logo.setAttribute("src", resolved === "dark" ? "/kc-favicon-dark.svg" : "/kc-favicon.svg");
+          }
+
+          return resolved;
+        };
+
+        const setPreference = (preference) => {
+          try {
+            localStorage.setItem(storageKey, preference);
+          } catch {}
+
+          const resolved = applyTheme(preference);
+          window.dispatchEvent(new CustomEvent("themechange", { detail: { preference, resolved } }));
+        };
+
+        const syncSystemTheme = () => {
+          const preference = getStoredPreference();
+          if (preference === "system") {
+            const resolved = applyTheme(preference);
+            window.dispatchEvent(new CustomEvent("themechange", { detail: { preference, resolved } }));
+          }
+        };
+
+        mediaQuery.addEventListener("change", syncSystemTheme);
+
+        window.__getThemePreference = getStoredPreference;
+        window.__setThemePreference = setPreference;
+        window.__applyThemePreference = applyTheme;
+
+        applyTheme(getStoredPreference());
+      })();
+    </script>
 
     <!-- Google Analytics -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-W5L0W9H30X"></script>
@@ -63,25 +139,25 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
     ))}
   </head>
 
-  <body class="min-h-screen bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
+  <body class="site-body min-h-screen text-zinc-900 dark:text-zinc-100">
     <!-- HEADER -->
-    <header class="sticky top-0 z-50 bg-white/90 dark:bg-neutral-950/90 backdrop-blur border-b dark:border-zinc-800">
+    <header class="site-header z-50">
       <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center gap-3">
         <!-- Brand / Home -->
-        <a href="/" aria-label="Home" title="Home" class="flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800">
-          <picture> <!-- dark mode support for logo -->
-            <source srcset="/kc-favicon-dark.svg" media="(prefers-color-scheme: dark)" />
-            <img src="/kc-favicon.svg" alt="KC Logo" class="w-10 h-10" />
-          </picture>
-          <span class="font-semibold hidden sm:inline">{siteMeta.name}</span>
+        <a href="/" aria-label="Home" title="Home" class="brand-link flex items-center gap-3 rounded-2xl px-2 py-2">
+          <img id="site-logo" src="/kc-favicon.svg" alt="KC Logo" class="w-10 h-10" />
+          <span class="site-name hidden sm:flex flex-col">
+            <span class="text-base font-semibold">{siteMeta.name}</span>
+            <span class="site-tagline">Research / Software / Hardware</span>
+          </span>
         </a>
 
         <!-- Desktop nav -->
-        <div class="hidden sm:flex items-center gap-6">
-          <a href="/work">Works</a>
-          <a href="/community">Community</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
+        <div class="hidden sm:flex items-center gap-5">
+          <a href="/work" class="nav-link">Works</a>
+          <a href="/community" class="nav-link">Community</a>
+          <a href="/about" class="nav-link">About</a>
+          <a href="/contact" class="nav-link">Contact</a>
         </div>
 
         <!-- Spacer -->
@@ -89,10 +165,40 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
 
         <!-- Icons (always visible) -->
         <div class="flex items-center gap-2">
+          <div class="theme-toggle hidden md:flex" role="group" aria-label="Theme preference">
+            {themeOptions.map((option) => (
+              <button
+                type="button"
+                class="theme-toggle__button"
+                data-theme-value={option.value}
+                aria-pressed="false"
+                aria-label={option.label}
+                title={option.label}
+              >
+                {option.value === "light" ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path stroke-linecap="round" d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"></path>
+                  </svg>
+                ) : option.value === "dark" ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                    <rect x="3.5" y="4.5" width="17" height="12" rx="2"></rect>
+                    <path stroke-linecap="round" d="M8 19.5h8M10 16.5v3M14 16.5v3"></path>
+                  </svg>
+                )}
+                <span class="sr-only">{option.label}</span>
+              </button>
+            ))}
+          </div>
+
           <a
             href="/KeithCurry_Resume.pdf"
             download
-            class="hidden sm:inline-flex items-center rounded-full border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-800 transition hover:bg-zinc-100 dark:border-zinc-600 dark:text-zinc-100 dark:hover:bg-zinc-800"
+            class="button-download hidden sm:inline-flex items-center px-4 py-2 text-sm"
           >
             Download Resume
           </a>
@@ -104,7 +210,7 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
             rel="noopener noreferrer"
             aria-label="GitHub"
             title="GitHub"
-            class="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            class="nav-icon-link rounded-xl p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                 class="w-5 h-5 text-zinc-700 dark:text-zinc-200">
@@ -120,7 +226,7 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
             rel="noopener noreferrer"
             aria-label="LinkedIn"
             title="LinkedIn"
-            class="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            class="nav-icon-link rounded-xl p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                 class="w-5 h-5 text-zinc-700 dark:text-zinc-200 transition-colors duration-200">
@@ -134,7 +240,7 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
           <!-- Mobile menu button -->
           <button
             id="nav-toggle"
-            class="sm:hidden p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            class="nav-icon-link sm:hidden rounded-xl p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label="Open menu"
             aria-expanded="false"
             aria-controls="mobile-menu"
@@ -155,24 +261,56 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
       </nav>
 
       <!-- Mobile menu (hidden on >= sm) -->
-      <div id="mobile-menu" class="sm:hidden hidden border-t dark:border-zinc-800">
+      <div id="mobile-menu" class="mobile-nav-panel sm:hidden hidden border-t dark:border-zinc-800">
         <div class="mx-auto max-w-6xl px-4 py-3 grid gap-3">
-          <a href="/work" class="py-2">Works</a>
-          <a href="/community" class="py-2">Community</a>
-          <a href="/about" class="py-2">About</a>
-          <a href="/contact" class="py-2">Contact</a>
-          <a href="/KeithCurry_Resume.pdf" download class="py-2">Download Resume</a>
+          <a href="/work" class="nav-link py-2">Works</a>
+          <a href="/community" class="nav-link py-2">Community</a>
+          <a href="/about" class="nav-link py-2">About</a>
+          <a href="/contact" class="nav-link py-2">Contact</a>
+          <a href="/KeithCurry_Resume.pdf" download class="nav-link py-2">Download Resume</a>
+          <div class="pt-2">
+            <p class="nav-link">Theme</p>
+            <div class="theme-toggle mt-3" role="group" aria-label="Theme preference">
+              {themeOptions.map((option) => (
+                <button
+                  type="button"
+                  class="theme-toggle__button"
+                  data-theme-value={option.value}
+                  aria-pressed="false"
+                  aria-label={option.label}
+                  title={option.label}
+                >
+                  {option.value === "light" ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                      <circle cx="12" cy="12" r="4"></circle>
+                      <path stroke-linecap="round" d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"></path>
+                    </svg>
+                  ) : option.value === "dark" ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                      <rect x="3.5" y="4.5" width="17" height="12" rx="2"></rect>
+                      <path stroke-linecap="round" d="M8 19.5h8M10 16.5v3M14 16.5v3"></path>
+                    </svg>
+                  )}
+                  <span class="sr-only">{option.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </header>
 
     <!-- MAIN -->
-    <main class="mx-auto max-w-6xl px-4 py-10">
+    <main class="portfolio-main mx-auto max-w-6xl px-4 py-10 sm:py-12">
       <slot />
     </main>
 
     <!-- FOOTER -->
-    <footer class="mx-auto max-w-6xl px-4 py-10 text-sm text-zinc-500 dark:text-zinc-400">
+    <footer class="site-footer mx-auto max-w-6xl px-4 py-10 text-sm text-zinc-500 dark:text-zinc-400">
       <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div class="space-y-1 text-center sm:text-left">
           <p>© {new Date().getFullYear()} Keith Curry</p>
@@ -230,6 +368,25 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
       const menu = document.getElementById('mobile-menu');
       const iconOpen = document.getElementById('icon-open');
       const iconClose = document.getElementById('icon-close');
+      const themeApi = window as Window & {
+        __getThemePreference?: () => string;
+        __setThemePreference?: (preference: string) => void;
+        __applyThemePreference?: (preference: string) => string;
+      };
+      const themeButtons = Array.from(document.querySelectorAll('[data-theme-value]'));
+
+      const syncThemeButtons = () => {
+        const preference = typeof themeApi.__getThemePreference === 'function' ? themeApi.__getThemePreference() : 'system';
+        if (typeof themeApi.__applyThemePreference === 'function') {
+          themeApi.__applyThemePreference(preference);
+        }
+
+        themeButtons.forEach((button) => {
+          const isActive = button.getAttribute('data-theme-value') === preference;
+          button.classList.toggle('is-active', isActive);
+          button.setAttribute('aria-pressed', String(isActive));
+        });
+      };
 
       if (btn && menu && iconOpen && iconClose) {
         btn.addEventListener('click', () => {
@@ -239,6 +396,18 @@ const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
           iconClose.classList.toggle('hidden', !isOpen);
         });
       }
+
+      themeButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const themeValue = button.getAttribute('data-theme-value');
+          if (typeof themeApi.__setThemePreference === 'function' && themeValue) {
+            themeApi.__setThemePreference(themeValue);
+          }
+        });
+      });
+
+      window.addEventListener('themechange', syncThemeButtons);
+      syncThemeButtons();
     </script>
   </body>
 </html>
