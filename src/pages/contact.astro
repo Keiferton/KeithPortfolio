@@ -59,5 +59,126 @@ import { siteMeta } from "@/lib/site";
         <div class="folio-card__footer">Open PDF</div>
       </a>
     </div>
+
+    <div class="surface-panel mt-8 overflow-hidden px-2 py-2 sm:px-3 sm:py-3">
+      <div class="px-4 pt-4 sm:px-5">
+        <p class="page-eyebrow">Schedule</p>
+        <h2 class="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">Book a time directly.</h2>
+        <p class="lede mt-3 max-w-2xl">
+          If a live conversation is easier, you can pick an intro slot here without leaving the site.
+        </p>
+      </div>
+
+      <div
+        id="calendly-inline-root"
+        class="mt-4"
+        style="min-width:320px;height:760px;background:transparent;color-scheme:light;"
+        aria-label="Calendly scheduling widget"
+      ></div>
+    </div>
   </section>
+
+  <script is:inline>
+    (() => {
+      const root = document.getElementById("calendly-inline-root");
+      if (!root) return;
+
+      const calendlyUrl = "https://calendly.com/keifh/intro";
+      let lastTheme = "";
+
+      const hexValue = (value) => value.trim().replace(/^#/, "");
+
+      const getThemePalette = () => {
+        const styles = getComputedStyle(document.documentElement);
+
+        return {
+          background: hexValue(styles.getPropertyValue("--paper-panel")),
+          text: hexValue(styles.getPropertyValue("--ink")),
+          primary: hexValue(styles.getPropertyValue("--accent-cool")),
+        };
+      };
+
+      const buildCalendlyUrl = () => {
+        const palette = getThemePalette();
+        const url = new URL(calendlyUrl);
+
+        url.searchParams.set("background_color", palette.background);
+        url.searchParams.set("text_color", palette.text);
+        url.searchParams.set("primary_color", palette.primary);
+
+        return url.toString();
+      };
+
+      const resolvedTheme = () =>
+        document.documentElement.classList.contains("dark") ? "dark" : "light";
+
+      const ensureCalendly = () =>
+        new Promise((resolve, reject) => {
+          if (window.Calendly?.initInlineWidget) {
+            resolve(window.Calendly);
+            return;
+          }
+
+          const existing = document.querySelector('script[data-calendly-script="true"]');
+          if (existing) {
+            existing.addEventListener("load", () => resolve(window.Calendly), { once: true });
+            existing.addEventListener("error", reject, { once: true });
+            return;
+          }
+
+          const script = document.createElement("script");
+          script.src = "https://assets.calendly.com/assets/external/widget.js";
+          script.async = true;
+          script.dataset.calendlyScript = "true";
+          script.addEventListener("load", () => resolve(window.Calendly), { once: true });
+          script.addEventListener("error", reject, { once: true });
+          document.body.appendChild(script);
+        });
+
+      const styleCalendlyChrome = () => {
+        const widget = root.firstElementChild;
+        if (widget instanceof HTMLElement) {
+          widget.style.background = "transparent";
+          widget.style.colorScheme = "light";
+        }
+
+        const iframe = root.querySelector("iframe");
+        if (iframe instanceof HTMLIFrameElement) {
+          iframe.style.backgroundColor = "transparent";
+          iframe.style.border = "0";
+          iframe.style.borderRadius = "20px";
+          iframe.style.colorScheme = "light";
+          iframe.style.display = "block";
+        }
+      };
+
+      const renderCalendly = async (theme) => {
+        if (theme === lastTheme && root.childElementCount > 0) return;
+
+        try {
+          const Calendly = await ensureCalendly();
+          if (!Calendly?.initInlineWidget) return;
+
+          root.innerHTML = "";
+          Calendly.initInlineWidget({
+            url: buildCalendlyUrl(),
+            parentElement: root,
+            resize: true,
+          });
+          requestAnimationFrame(styleCalendlyChrome);
+          window.setTimeout(styleCalendlyChrome, 250);
+          lastTheme = theme;
+        } catch (error) {
+          console.error("Calendly failed to load.", error);
+        }
+      };
+
+      renderCalendly(resolvedTheme());
+
+      window.addEventListener("themechange", (event) => {
+        const theme = event.detail?.resolved === "dark" ? "dark" : "light";
+        renderCalendly(theme);
+      });
+    })();
+  </script>
 </Base>
