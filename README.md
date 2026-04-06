@@ -1,11 +1,11 @@
 # Keith Curry – Portfolio
 
-This is the source code for my personal portfolio at [keifh.com](https://keifh.com), built with [Astro](https://astro.build) and deployed via GitHub Pages.
+This is the source code for my personal portfolio at [keifh.com](https://keifh.com), built with [Astro](https://astro.build).
 
 ## 🛠 Tech Stack
 - **Framework:** Astro  
 - **Languages:** HTML, CSS, JavaScript  
-- **Deployment:** GitHub Pages  
+- **Deployment:** Static hosting / Vercel  
 
 ## ✨ Features
 - Interactive STL/GLB model viewer
