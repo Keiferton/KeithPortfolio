@@ -42,6 +42,8 @@ const themeOptions = [
     <meta name="twitter:description" content={description} />
     {socialImage && <meta name="twitter:image" content={socialImage} />}
 
+    <slot name="head" />
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/kc-favicon.svg" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/svg+xml" href="/kc-favicon-dark.svg" media="(prefers-color-scheme: dark)" />
@@ -122,13 +124,71 @@ const themeOptions = [
       })();
     </script>
 
-    <!-- Google Analytics -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-W5L0W9H30X"></script>
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-W5L0W9H30X', { page_path: window.location.pathname });
+      (() => {
+        const consentKey = "kc-cookie-consent";
+        const measurementId = "G-W5L0W9H30X";
+        let analyticsLoaded = false;
+
+        window.dataLayer = window.dataLayer || [];
+        window.gtag =
+          window.gtag ||
+          function () {
+            window.dataLayer.push(arguments);
+          };
+
+        const gtag = window.gtag;
+
+        const loadAnalytics = () => {
+          if (analyticsLoaded) return;
+
+          analyticsLoaded = true;
+
+          const script = document.createElement("script");
+          script.async = true;
+          script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+          document.head.appendChild(script);
+
+          gtag("js", new Date());
+          gtag("config", measurementId, {
+            page_path: window.location.pathname,
+            anonymize_ip: true,
+          });
+        };
+
+        const applyAnalyticsConsent = (granted) => {
+          gtag("consent", "default", {
+            analytics_storage: "denied",
+            ad_storage: "denied",
+            ad_user_data: "denied",
+            ad_personalization: "denied",
+          });
+
+          gtag("consent", "update", {
+            analytics_storage: granted ? "granted" : "denied",
+            ad_storage: "denied",
+            ad_user_data: "denied",
+            ad_personalization: "denied",
+          });
+
+          if (granted) {
+            loadAnalytics();
+          }
+        };
+
+        try {
+          const stored = localStorage.getItem(consentKey);
+          if (stored === "accepted") {
+            applyAnalyticsConsent(true);
+          } else {
+            applyAnalyticsConsent(false);
+          }
+        } catch {
+          applyAnalyticsConsent(false);
+        }
+
+        window.__setAnalyticsConsent = applyAnalyticsConsent;
+      })();
     </script>
 
     <!-- <model-viewer> for GLB previews -->
@@ -323,6 +383,7 @@ const themeOptions = [
           <a href={`mailto:${siteMeta.email}`} class="underline">Email</a>
           <a href="/KeithCurry_Resume.pdf" target="_blank" rel="noopener noreferrer" class="underline">Resume</a>
           <a href="/KeithCurry_CV.pdf" target="_blank" rel="noopener noreferrer" class="underline">Curriculum Vitae (CV)</a>
+          <button type="button" data-cookie-settings class="underline bg-transparent border-0 p-0 cursor-pointer">Cookie settings</button>
 
           <!-- GitHub (icon + label) -->
           <a
@@ -362,6 +423,25 @@ const themeOptions = [
       </div>
     </footer>
 
+    <div id="cookie-banner" class="cookie-banner" hidden>
+      <div class="cookie-banner__panel">
+        <p class="page-eyebrow">Privacy</p>
+        <h2 class="cookie-banner__title">Optional analytics</h2>
+        <p class="cookie-banner__copy">
+          This site can use Google Analytics to understand visits and improve the portfolio. The site works the same if you reject it.
+        </p>
+        <p id="cookie-banner-status" class="cookie-banner__status" aria-live="polite"></p>
+        <div class="cookie-banner__actions">
+          <button type="button" data-cookie-reject class="button-secondary inline-flex items-center justify-center px-4 py-2 text-sm">
+            Reject
+          </button>
+          <button type="button" data-cookie-accept class="button-primary inline-flex items-center justify-center px-4 py-2 text-sm">
+            Accept analytics
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Mobile menu toggle script -->
     <script>
       const btn = document.getElementById('nav-toggle');
@@ -372,8 +452,17 @@ const themeOptions = [
         __getThemePreference?: () => string;
         __setThemePreference?: (preference: string) => void;
         __applyThemePreference?: (preference: string) => string;
+        __setAnalyticsConsent?: (granted: boolean) => void;
       };
+      const consentStorageKey = 'kc-cookie-consent';
+      const consentAnimationMs = 220;
       const themeButtons = Array.from(document.querySelectorAll('[data-theme-value]'));
+      const consentBanner = document.getElementById('cookie-banner');
+      const consentStatus = document.getElementById('cookie-banner-status');
+      const acceptConsentButtons = Array.from(document.querySelectorAll('[data-cookie-accept]'));
+      const rejectConsentButtons = Array.from(document.querySelectorAll('[data-cookie-reject]'));
+      const settingsButtons = Array.from(document.querySelectorAll('[data-cookie-settings]'));
+      let consentCloseTimer: number | undefined;
 
       const syncThemeButtons = () => {
         const preference = typeof themeApi.__getThemePreference === 'function' ? themeApi.__getThemePreference() : 'system';
@@ -386,6 +475,79 @@ const themeOptions = [
           button.classList.toggle('is-active', isActive);
           button.setAttribute('aria-pressed', String(isActive));
         });
+      };
+
+      const getStoredConsent = () => {
+        try {
+          const stored = localStorage.getItem(consentStorageKey);
+          return stored === 'accepted' || stored === 'rejected' ? stored : null;
+        } catch {
+          return null;
+        }
+      };
+
+      const updateConsentStatus = () => {
+        if (!consentStatus) return;
+
+        const stored = getStoredConsent();
+        consentStatus.textContent =
+          stored === 'accepted'
+            ? 'Analytics is currently enabled.'
+            : stored === 'rejected'
+              ? 'Analytics is currently disabled.'
+              : 'Analytics stays off until you choose.';
+      };
+
+      const syncConsentControls = () => {
+        const hasChoice = getStoredConsent() !== null;
+        settingsButtons.forEach((button) => {
+          button.hidden = hasChoice;
+        });
+      };
+
+      const openConsentBanner = () => {
+        if (!consentBanner) return;
+
+        if (typeof consentCloseTimer === 'number') {
+          window.clearTimeout(consentCloseTimer);
+          consentCloseTimer = undefined;
+        }
+
+        consentBanner.hidden = false;
+        consentBanner.dataset.state = 'entering';
+        updateConsentStatus();
+        window.requestAnimationFrame(() => {
+          if (!consentBanner.hidden) {
+            consentBanner.dataset.state = 'open';
+          }
+        });
+      };
+
+      const closeConsentBanner = () => {
+        if (!consentBanner) return;
+        consentBanner.dataset.state = 'exiting';
+        if (typeof consentCloseTimer === 'number') {
+          window.clearTimeout(consentCloseTimer);
+        }
+        consentCloseTimer = window.setTimeout(() => {
+          if (!consentBanner) return;
+          consentBanner.hidden = true;
+          consentBanner.dataset.state = 'closed';
+        }, consentAnimationMs);
+      };
+
+      const setConsent = (value: 'accepted' | 'rejected') => {
+        try {
+          localStorage.setItem(consentStorageKey, value);
+        } catch {}
+
+        if (typeof themeApi.__setAnalyticsConsent === 'function') {
+          themeApi.__setAnalyticsConsent(value === 'accepted');
+        }
+
+        syncConsentControls();
+        updateConsentStatus();
+        closeConsentBanner();
       };
 
       if (btn && menu && iconOpen && iconClose) {
@@ -406,7 +568,31 @@ const themeOptions = [
         });
       });
 
+      settingsButtons.forEach((button) => {
+        button.addEventListener('click', openConsentBanner);
+      });
+
+      acceptConsentButtons.forEach((button) => {
+        button.addEventListener('click', () => setConsent('accepted'));
+      });
+
+      rejectConsentButtons.forEach((button) => {
+        button.addEventListener('click', () => setConsent('rejected'));
+      });
+
       window.addEventListener('themechange', syncThemeButtons);
+      syncConsentControls();
+
+      if (getStoredConsent() === null) {
+        openConsentBanner();
+      } else {
+        updateConsentStatus();
+        if (consentBanner) {
+          consentBanner.hidden = true;
+          consentBanner.dataset.state = 'closed';
+        }
+      }
+
       syncThemeButtons();
     </script>
   </body>
