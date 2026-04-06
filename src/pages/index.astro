@@ -36,17 +36,32 @@ const proofPoints = [
   {
     value: "90%",
     label: "cost reduction",
-    note: "Reusable MoldiBlocks molds cut tissue microarray fabrication costs dramatically.",
+    note: "Reusable MoldiBlocks molds made tissue microarray fabrication dramatically cheaper.",
   },
   {
     value: "40+",
     label: "imaging runs stabilized",
-    note: "RoboCam autofocus kept long-duration microscope captures usable across repeated runs.",
+    note: "RoboCam autofocus kept long microscope captures usable across repeated runs.",
   },
   {
     value: "100s",
     label: "workloads tracked",
     note: "Pol Patrol made policy adoption visible across hundreds of production workloads.",
+  },
+];
+
+const highlightAreas = [
+  {
+    title: "Research automation",
+    body: "Microscopy, autofocus, image capture, and repeatable lab workflows.",
+  },
+  {
+    title: "Imaging systems",
+    body: "Infrared illumination, optical stability, and observation setups built for delicate specimens.",
+  },
+  {
+    title: "Developer tooling",
+    body: "Policy compliance, Kubernetes observability, and internal platform support.",
   },
 ];
 
@@ -126,28 +141,22 @@ const homeJsonLd = [
         My work ranges from 3D-printer-based microscopes to internal infrastructure tools. In both cases,
         the details matter: alignment, data quality, maintenance, and whether other people can actually use the system.
       </p>
-      <div class="metric-grid mt-6">
-        {proofPoints.map((point) => (
-          <div class="metric-card">
+      <div class="highlight-grid mt-6">
+        {proofPoints.map((point, index) => (
+          <div class:list={["metric-card", index === 2 && "metric-card--wide"]}>
             <div class="metric-value">{point.value}</div>
             <div class="metric-label">{point.label}</div>
             <p class="metric-note">{point.note}</p>
           </div>
         ))}
       </div>
-      <div class="annotated-list">
-        <div class="annotated-row">
-          <span>Research automation</span>
-          <span>Microscopy, autofocus, image capture, and repeatable lab workflows.</span>
-        </div>
-        <div class="annotated-row">
-          <span>Imaging systems</span>
-          <span>Infrared illumination, optical stability, and organism-safe observation setups.</span>
-        </div>
-        <div class="annotated-row">
-          <span>Developer tooling</span>
-          <span>Policy compliance, Kubernetes observability, and internal platform support.</span>
-        </div>
+      <div class="highlight-stack mt-6">
+        {highlightAreas.map((area) => (
+          <div class="highlight-row">
+            <p class="highlight-row__title">{area.title}</p>
+            <p class="highlight-row__body">{area.body}</p>
+          </div>
+        ))}
       </div>
       <div class="mt-5 flex flex-wrap gap-3">
         <a

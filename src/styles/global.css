@@ -358,9 +358,38 @@ html.dark .focus-card {
   }
 }
 
+.highlight-grid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+@media (min-width: 640px) {
+  .highlight-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .metric-card {
   border-radius: 20px;
-  padding: 1rem;
+  padding: 1.1rem 1.15rem;
+}
+
+.metric-card--wide {
+  background:
+    linear-gradient(180deg, rgba(49, 93, 104, 0.08), transparent),
+    rgba(252, 247, 239, 0.78);
+}
+
+html.dark .metric-card--wide {
+  background:
+    linear-gradient(180deg, rgba(120, 178, 192, 0.12), transparent),
+    rgba(34, 27, 22, 0.9);
+}
+
+@media (min-width: 640px) {
+  .metric-card--wide {
+    grid-column: 1 / -1;
+  }
 }
 
 .metric-value {
@@ -380,8 +409,8 @@ html.dark .focus-card {
 .metric-note {
   margin-top: 0.65rem;
   color: var(--muted);
-  font-size: 0.82rem;
-  line-height: 1.5;
+  font-size: 0.88rem;
+  line-height: 1.65;
 }
 
 .annotated-list {
@@ -403,6 +432,31 @@ html.dark .focus-card {
   max-width: 15rem;
   color: var(--muted);
   text-align: right;
+}
+
+.highlight-stack {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.highlight-row {
+  border-top: 1px solid var(--line);
+  padding-top: 0.85rem;
+}
+
+.highlight-row__title {
+  font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.highlight-row__body {
+  margin-top: 0.45rem;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.65;
 }
 
 .section-heading {
@@ -551,8 +605,83 @@ html.dark .folio-card__media {
   border-top: 1px solid var(--line);
 }
 
-.site-footer a {
+.site-footer a,
+.site-footer button {
   color: inherit;
+}
+
+.cookie-banner {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 90;
+  display: flex;
+  justify-content: stretch;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(100%);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.cookie-banner[data-state="open"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cookie-banner[data-state="exiting"] {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.cookie-banner__panel {
+  width: 100%;
+  border-top: 1px solid var(--line);
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 28px 28px 0 0;
+  background: rgba(252, 247, 239, 0.96);
+  box-shadow: var(--shadow-hover);
+  backdrop-filter: blur(18px);
+  padding:
+    1.1rem
+    clamp(1rem, calc((100vw - 72rem) / 2 + 1rem), 4rem)
+    calc(1rem + env(safe-area-inset-bottom));
+  pointer-events: auto;
+}
+
+html.dark .cookie-banner__panel {
+  background: rgba(28, 23, 19, 0.96);
+}
+
+.cookie-banner__title {
+  margin-top: 0.35rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.cookie-banner__copy {
+  margin-top: 0.55rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.cookie-banner__status {
+  margin-top: 0.7rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: 0.04em;
+}
+
+.cookie-banner__actions {
+  margin-top: 0.95rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .prose {
@@ -582,6 +711,11 @@ html.dark .folio-card__media {
 @media (max-width: 639px) {
   .display-title {
     max-width: 11ch;
+  }
+
+  .cookie-banner {
+    inset-inline: 0;
+    bottom: 0;
   }
 
   .annotated-row {
