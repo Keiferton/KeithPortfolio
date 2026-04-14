@@ -1,4 +1,27 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.keifh.com"
+        }
+      ],
+      "destination": "https://keifh.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/side-quests/tissue-microarray-silicone-mold",
+      "destination": "/products/moldiblocks",
+      "permanent": true
+    },
+    {
+      "source": "/side-quests/tissue-microarray-silicone-mold/",
+      "destination": "/products/moldiblocks",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

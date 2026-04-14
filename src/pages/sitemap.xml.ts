@@ -4,14 +4,14 @@ import { siteMeta } from "@/lib/site";
 
 const staticRoutes = [
   "/",
-  "/about/",
-  "/contact/",
-  "/work/",
-  "/projects/",
-  "/designs/",
-  "/products/",
-  "/community/",
-  "/side-quests/",
+  "/about",
+  "/contact",
+  "/work",
+  "/projects",
+  "/designs",
+  "/products",
+  "/community",
+  "/side-quests",
 ];
 
 const escapeXml = (value: string) =>
@@ -35,23 +35,23 @@ export const GET: APIRoute = async ({ site }) => {
   const urls: Array<{ loc: string; lastmod?: string }> = [
     ...staticRoutes.map((path) => ({ loc: new URL(path, siteUrl).toString(), lastmod: undefined })),
     ...projects.map((entry) => ({
-      loc: new URL(`/projects/${entry.slug}/`, siteUrl).toString(),
+      loc: new URL(`/projects/${entry.slug}`, siteUrl).toString(),
       lastmod: entry.data.date,
     })),
     ...designs.map((entry) => ({
-      loc: new URL(`/designs/${entry.slug}/`, siteUrl).toString(),
+      loc: new URL(`/designs/${entry.slug}`, siteUrl).toString(),
       lastmod: entry.data.date,
     })),
     ...products.map((entry) => ({
-      loc: new URL(`/products/${entry.slug}/`, siteUrl).toString(),
+      loc: new URL(`/products/${entry.slug}`, siteUrl).toString(),
       lastmod: entry.data.date,
     })),
     ...community.map((entry) => ({
-      loc: new URL(`/community/${entry.slug}/`, siteUrl).toString(),
+      loc: new URL(`/community/${entry.slug}`, siteUrl).toString(),
       lastmod: entry.data.date,
     })),
     ...sidequests.map((entry) => ({
-      loc: new URL(`/side-quests/${entry.slug}/`, siteUrl).toString(),
+      loc: new URL(`/side-quests/${entry.slug}`, siteUrl).toString(),
       lastmod: entry.data.date,
     })),
   ];
