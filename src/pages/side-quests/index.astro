@@ -17,6 +17,6 @@ const items = (await getCollection("sidequests"))
     </div>
   </section>
   <div class="mt-10 grid md:grid-cols-2 gap-6">
-    {items.map(({ slug, data }) => <SimpleCard url={`/side-quests/${slug}/`} data={data} eyebrow="Experiment" />)}
+    {items.map(({ slug, data }) => <SimpleCard url={`/side-quests/${slug}`} data={data} eyebrow="Experiment" />)}
   </div>
 </Base>

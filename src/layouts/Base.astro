@@ -14,7 +14,25 @@ const {
 const siteUrl = Astro.site ?? new URL(siteMeta.url);
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 const socialImage = image ? new URL(image, siteUrl).toString() : undefined;
-const jsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
+const extraJsonLdItems = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
+const jsonLdItems = noindex
+  ? extraJsonLdItems
+  : [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: title,
+        description,
+        url: canonicalUrl,
+        isPartOf: {
+          "@type": "WebSite",
+          name: siteMeta.name,
+          url: siteUrl.toString(),
+        },
+        ...(socialImage ? { primaryImageOfPage: socialImage } : {}),
+      },
+      ...extraJsonLdItems,
+    ];
 const themeOptions = [
   { value: "light", label: "Light" },
   { value: "dark", label: "Dark" },
@@ -191,8 +209,27 @@ const themeOptions = [
       })();
     </script>
 
-    <!-- <model-viewer> for GLB previews -->
-    <script is:inline type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <!-- Load <model-viewer> only on pages that render one -->
+    <script is:inline>
+      (() => {
+        const loadModelViewer = () => {
+          if (!document.querySelector("model-viewer")) return;
+          if (document.querySelector('script[data-model-viewer-script="true"]')) return;
+
+          const script = document.createElement("script");
+          script.type = "module";
+          script.src = "https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js";
+          script.dataset.modelViewerScript = "true";
+          document.head.appendChild(script);
+        };
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", loadModelViewer, { once: true });
+        } else {
+          loadModelViewer();
+        }
+      })();
+    </script>
 
     {jsonLdItems.map((item) => (
       <script is:inline type="application/ld+json" set:html={JSON.stringify(item)}></script>

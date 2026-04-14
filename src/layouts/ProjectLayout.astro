@@ -2,13 +2,41 @@
 import Base from "@/layouts/Base.astro";
 import Acknowledgments from "@/components/Acknowledgments.astro";
 import ContactCTA from "@/components/ContactCTA.astro";
+import { buildBreadcrumbJsonLd, buildCreativeWorkJsonLd } from "@/lib/seo";
 
 const { data, Content } = Astro.props;
+const pagePath = Astro.url.pathname;
+const previewImage = data.cover ?? data.thumbs?.[0];
+const pageDescription = data.summary ?? `${data.title} project overview by Keith Curry.`;
+const keywords = [...new Set([...(data.tags ?? []), ...(data.tech ?? [])])];
+const jsonLd = [
+  buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Projects", path: "/projects" },
+    { name: data.title, path: pagePath },
+  ]),
+  buildCreativeWorkJsonLd({
+    type: "Article",
+    title: data.title,
+    description: pageDescription,
+    path: pagePath,
+    image: previewImage,
+    date: data.date,
+    keywords,
+    section: "Projects",
+  }),
+];
 
 const prettyDate = (iso?: string) =>
   iso ? new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short" }) : "";
 ---
-<Base title={`${data.title} — Projects`} description={data.summary} image={data.cover ?? data.thumbs?.[0]} type="article">
+<Base
+  title={`${data.title} — Projects`}
+  description={pageDescription}
+  image={previewImage}
+  type="article"
+  jsonLd={jsonLd}
+>
   <article class="prose prose-zinc dark:prose-invert max-w-none">
     <a href="/projects" class="text-sm underline">← Back to Projects</a>
 
@@ -33,6 +61,7 @@ const prettyDate = (iso?: string) =>
           src={data.glbPath}
           camera-controls
           interaction-prompt="none"
+          loading="lazy"
           style="width:100%;height:100%;background:#f7f7f7;"
           exposure=".8"
           shadow-intensity=".8"
