@@ -17,10 +17,10 @@ const priorityOrder: Record<string, number> = {
 };
 const featuredProjects = projects
   .filter(p => p.data.featured)
-  .map(p => ({ url: `/projects/${p.slug}/`, data: p.data, slug: p.slug, kind: "Case Study" }));
+  .map(p => ({ url: `/projects/${p.slug}`, data: p.data, slug: p.slug, kind: "Case Study" }));
 const featuredProducts = products
   .filter(p => p.data.featured)
-  .map(p => ({ url: `/products/${p.slug}/`, data: p.data, slug: p.slug, kind: "Product Build" }));
+  .map(p => ({ url: `/products/${p.slug}`, data: p.data, slug: p.slug, kind: "Product Build" }));
 const featured = [...featuredProjects, ...featuredProducts].sort((a, b) => {
   const aKey = a.slug.toLowerCase();
   const bKey = b.slug.toLowerCase();

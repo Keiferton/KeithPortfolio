@@ -8,17 +8,6 @@ import { siteMeta } from "@/lib/site";
     <link rel="dns-prefetch" href="https://calendly.com" />
     <link rel="preconnect" href="https://assets.calendly.com" crossorigin />
     <link rel="preconnect" href="https://calendly.com" />
-    <link
-      rel="preload"
-      as="script"
-      href="https://assets.calendly.com/assets/external/widget.js"
-      crossorigin
-    />
-    <script
-      async
-      src="https://assets.calendly.com/assets/external/widget.js"
-      data-calendly-script="true"
-    ></script>
   </Fragment>
 
   <section class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,1.28fr)_minmax(18rem,0.72fr)] lg:items-start">
@@ -95,6 +84,7 @@ import { siteMeta } from "@/lib/site";
 
       const calendlyUrl = "https://calendly.com/keifh/intro";
       let lastTheme = "";
+      let hasRendered = false;
 
       const hexValue = (value) => value.trim().replace(/^#/, "");
 
@@ -178,16 +168,37 @@ import { siteMeta } from "@/lib/site";
           requestAnimationFrame(styleCalendlyChrome);
           window.setTimeout(styleCalendlyChrome, 250);
           lastTheme = theme;
+          hasRendered = true;
         } catch (error) {
           console.error("Calendly failed to load.", error);
         }
       };
 
-      renderCalendly(resolvedTheme());
+      const scheduleCalendlyLoad = () => {
+        if ("IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              if (!entries.some((entry) => entry.isIntersecting)) return;
+              observer.disconnect();
+              renderCalendly(resolvedTheme());
+            },
+            { rootMargin: "240px 0px" },
+          );
+
+          observer.observe(root);
+          return;
+        }
+
+        renderCalendly(resolvedTheme());
+      };
+
+      scheduleCalendlyLoad();
 
       window.addEventListener("themechange", (event) => {
         const theme = event.detail?.resolved === "dark" ? "dark" : "light";
-        renderCalendly(theme);
+        if (hasRendered) {
+          renderCalendly(theme);
+        }
       });
     })();
   </script>

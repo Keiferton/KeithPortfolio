@@ -19,7 +19,7 @@ const designs = (await getCollection("designs"))
   </section>
   <div class="mt-10 grid md:grid-cols-2 gap-6">
     {designs.map(({ slug, data }) => (
-      <DesignCard url={`/designs/${slug}/`} data={data} eyebrow="Design File" />
+      <DesignCard url={`/designs/${slug}`} data={data} eyebrow="Design File" />
     ))}
   </div>
 </Base>

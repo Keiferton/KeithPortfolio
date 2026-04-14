@@ -2,6 +2,7 @@
 import Base from "@/layouts/Base.astro";
 import ContactCTA from "@/components/ContactCTA.astro";
 import { getCollection } from "astro:content";
+import { buildBreadcrumbJsonLd, buildCreativeWorkJsonLd } from "@/lib/seo";
 export async function getStaticPaths() {
   const entries = await getCollection("community");
   return entries.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
@@ -10,9 +11,35 @@ const { entry } = Astro.props;
 const d = entry.data;
 const { Content } = await entry.render();
 const prettyDate = (iso?: string) => iso ? new Date(iso).toLocaleDateString(undefined,{year:"numeric",month:"short"}) : "";
+const pagePath = Astro.url.pathname;
 const previewImage = d.cover ?? d.thumbs?.[0];
+const pageDescription = d.summary ?? `${d.title} community work by Keith Curry.`;
+const keywords = [d.org, d.role].filter((value): value is string => Boolean(value));
+const jsonLd = [
+  buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Community", path: "/community" },
+    { name: d.title, path: pagePath },
+  ]),
+  buildCreativeWorkJsonLd({
+    type: "Article",
+    title: d.title,
+    description: pageDescription,
+    path: pagePath,
+    image: previewImage,
+    date: d.date,
+    keywords,
+    section: "Community",
+  }),
+];
 ---
-<Base title={`${d.title} — Community`} description={d.summary} image={previewImage} type="article">
+<Base
+  title={`${d.title} — Community`}
+  description={pageDescription}
+  image={previewImage}
+  type="article"
+  jsonLd={jsonLd}
+>
   <article class="prose prose-zinc dark:prose-invert max-w-none">
     <a href="/community" class="text-sm underline">← Back to Community</a>
     <header class="mt-2">
@@ -24,7 +51,7 @@ const previewImage = d.cover ?? d.thumbs?.[0];
       </div>
     </header>
 
-    {d.cover && <img src={d.cover} alt={d.title} class="rounded-xl my-4 w-full max-w-xl mx-auto h-auto" />}
+    {d.cover && <img src={d.cover} alt={d.title} class="rounded-xl my-4 w-full max-w-xl mx-auto h-auto" loading="lazy" decoding="async" />}
 
     {Array.isArray(d.thumbs) && d.thumbs.length > 0 && (
       <div class="my-4 space-y-4">

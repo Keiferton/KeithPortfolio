@@ -17,6 +17,6 @@ const items = (await getCollection("community"))
     </div>
   </section>
   <div class="mt-10 grid md:grid-cols-2 gap-6">
-    {items.map(({ slug, data }) => <SimpleCard url={`/community/${slug}/`} data={data} eyebrow="Community" />)}
+    {items.map(({ slug, data }) => <SimpleCard url={`/community/${slug}`} data={data} eyebrow="Community" />)}
   </div>
 </Base>

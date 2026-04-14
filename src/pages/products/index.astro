@@ -17,6 +17,6 @@ const products = (await getCollection("products"))
     </div>
   </section>
   <div class="mt-10 grid md:grid-cols-2 gap-6">
-    {products.map(({ slug, data }) => <SimpleCard url={`/products/${slug}/`} data={data} eyebrow="Product Build" />)}
+    {products.map(({ slug, data }) => <SimpleCard url={`/products/${slug}`} data={data} eyebrow="Product Build" />)}
   </div>
 </Base>

@@ -2,6 +2,7 @@
 import Base from "@/layouts/Base.astro";
 import ContactCTA from "@/components/ContactCTA.astro";
 import { getCollection } from "astro:content";
+import { buildBreadcrumbJsonLd, buildCreativeWorkJsonLd } from "@/lib/seo";
 
 export async function getStaticPaths() {
   const designs = await getCollection("designs");
@@ -14,14 +15,39 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const d = entry.data;
 const { Content } = await entry.render();
+const pagePath = Astro.url.pathname;
 const previewImage = d.cover ?? d.thumbs?.[0];
+const pageDescription = d.summary ?? `${d.title} design details by Keith Curry.`;
+const keywords = [...new Set(d.tool ?? [])];
+const jsonLd = [
+  buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Designs", path: "/designs" },
+    { name: d.title, path: pagePath },
+  ]),
+  buildCreativeWorkJsonLd({
+    title: d.title,
+    description: pageDescription,
+    path: pagePath,
+    image: previewImage,
+    date: d.date,
+    keywords,
+    section: "Designs",
+  }),
+];
 
 // Helper: pretty date (expects YYYY-MM-DD)
 const prettyDate = (iso?: string) =>
   iso ? new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short" }) : "";
 ---
 
-<Base title={`${d.title} — Designs`} description={d.summary} image={previewImage} type="article">
+<Base
+  title={`${d.title} — Designs`}
+  description={pageDescription}
+  image={previewImage}
+  type="article"
+  jsonLd={jsonLd}
+>
   <article class="prose prose-zinc dark:prose-invert max-w-none">
     <a href="/designs" class="text-sm underline">← Back to Designs</a>
 
@@ -68,6 +94,7 @@ const prettyDate = (iso?: string) =>
           src={d.glbPath}
           camera-controls
           interaction-prompt="none"
+          loading="lazy"
           style="width:100%;height:520px;background:#f7f7f7;border-radius:1rem;"
           exposure=".8"
           shadow-intensity=".8"
