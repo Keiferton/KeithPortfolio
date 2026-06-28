@@ -34,10 +34,26 @@ MoldiBlocks uses a reusable SLA-printed master mold to cast flexible, platinum-c
 - Syringes for controlled pours
 - Vacuum chamber for silicone degassing
 
+### Awards / Recognition
+- Accepted into **SFSU IncuGator**.
+- **2nd Place**, Engineering and Pitch Competition.
+- **1st Place**, Innovation Pitch.
+- **3rd Place**, Health and Wellness Track, CSU Sunstone Startup Launch Pitch Competition.
+
 ### Early learnings
 - **Post-curing is critical:** Residual uncured resin inhibits platinum-cure silicone crosslinking. Extended UV curing followed by warm-air drying is required before casting.
 - **Degassing improves geometry preservation:** Vacuum chamber degassing significantly reduces trapped air and improves feature fidelity compared to syringe-only filling, particularly in narrow core bores.
 - **Fill strategy matters:** Controlled filling combined with degassing yields more consistent core geometry and fewer defects across the mold.
+
+### Current Development
+MoldiBlocks is being developed through NSF I-Corps customer discovery as an active product exploration in accessible biomedical research tooling. The work focuses on understanding how research and educational environments approach histology, microscopy, tissue microarray construction, training, and tool access.
+
+Discovery areas include:
+- Histology and tissue microarray workflows
+- Biomedical research training environments
+- Shared research facility constraints
+- Hands-on tooling for academic labs
+- Access, reproducibility, and workflow friction
 
 ### Current Status & Next steps
 - Actively testing molds designed for 2 mm tissue cores, with plans to expand to additional core sizes.

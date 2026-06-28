@@ -256,7 +256,7 @@ html.dark .mobile-nav-panel {
 }
 
 .display-title {
-  max-width: 14ch;
+  max-width: 30ch;
   font-size: clamp(2.1rem, 4.2vw, 3rem);
   font-weight: 700;
   line-height: 0.98;
@@ -601,6 +601,121 @@ html.dark .folio-card__media {
   margin-top: 1.4rem;
 }
 
+.community-gallery {
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.community-gallery__stage {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--paper-panel);
+  box-shadow: var(--shadow-card);
+}
+
+.community-gallery__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.community-gallery__control {
+  position: absolute;
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(252, 247, 239, 0.9);
+  color: var(--ink);
+  font-size: 2rem;
+  line-height: 1;
+  transform: translateY(-50%);
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+html.dark .community-gallery__control {
+  background: rgba(34, 27, 22, 0.9);
+}
+
+.community-gallery__control:hover,
+.community-gallery__control:focus-visible {
+  border-color: var(--line-strong);
+  transform: translateY(-50%) scale(1.04);
+}
+
+.community-gallery__control--prev {
+  left: 0.9rem;
+}
+
+.community-gallery__control--next {
+  right: 0.9rem;
+}
+
+.community-gallery__meta {
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.community-gallery__thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.85rem;
+}
+
+.community-gallery__thumb {
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  opacity: 0.72;
+  transition:
+    border-color 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.community-gallery__thumb:hover,
+.community-gallery__thumb:focus-visible,
+.community-gallery__thumb[aria-current="true"] {
+  border-color: var(--accent);
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.community-gallery__thumb img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.community-item {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(252, 247, 239, 0.72);
+  padding: 1.1rem;
+}
+
+html.dark .community-item {
+  background: rgba(34, 27, 22, 0.78);
+}
+
 .site-footer {
   border-top: 1px solid var(--line);
 }
@@ -710,7 +825,7 @@ html.dark .cookie-banner__panel {
 
 @media (max-width: 639px) {
   .display-title {
-    max-width: 11ch;
+    max-width: 14ch;
   }
 
   .cookie-banner {

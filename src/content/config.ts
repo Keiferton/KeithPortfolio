@@ -45,11 +45,25 @@ const community = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.string(),                    // "YYYY-MM-DD"
+    kind: z.enum(["organization", "event"]).default("organization"),
+    showInIndex: z.boolean().default(true),
+    group: z.enum(["current", "past"]).optional(),
     summary: z.string().optional(),
     cover: z.string().optional(),        // hero photo
     thumbs: z.array(z.string()).optional(),
     org: z.string().optional(),          // e.g., "ACM@SFSU", "SF Hacks", "NIH URISE"
     role: z.string().optional(),         // e.g., "Organizer", "Outreach Chair"
+    items: z.array(z.object({
+      title: z.string(),
+      type: z.enum(["role", "event", "talk", "service"]),
+      date: z.string().optional(),
+      role: z.string().optional(),
+      summary: z.string(),
+      links: z.object({
+        site: z.string().url().optional(),
+        gallery: z.string().url().optional(),
+      }).optional(),
+    })).optional(),
     links: z.object({
       site: z.string().url().optional(),
       gallery: z.string().url().optional(),

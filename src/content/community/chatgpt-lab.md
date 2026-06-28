@@ -1,10 +1,22 @@
 ---
 title: "ChatGPT Lab"
 date: "2025-03-01"
+kind: "event"
+group: "current"
 summary: "Participated in OpenAI's inaugural ChatGPT Lab cohort, contributing product feedback, student use cases, and campus-facing AI programming."
 cover: "/images/community/chatgpt-lab/chatgpt-lab-dinner.webp"
 org: "OpenAI"
 role: "Lab Member / Alpha Tester"
+items:
+  - title: "Inaugural ChatGPT Lab cohort"
+    type: "role"
+    date: "2025-03-01"
+    role: "Lab Member / Alpha Tester"
+    summary: "Participated in early product testing and design research, contributing feedback grounded in real academic workflows."
+  - title: "Campus-facing AI programming"
+    type: "event"
+    date: "2025-03-01"
+    summary: "Led student conversations and campus programming around responsible AI use in education and research."
 ---
 ## Highlights
 - Selected for the inaugural ChatGPT Lab cohort focused on early product testing and design research.

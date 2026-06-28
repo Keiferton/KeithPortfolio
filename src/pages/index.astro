@@ -32,52 +32,17 @@ const featured = [...featuredProjects, ...featuredProducts].sort((a, b) => {
   return b.data.date.localeCompare(a.data.date);
 });
 
-const proofPoints = [
-  {
-    value: "90%",
-    label: "cost reduction",
-    note: "Reusable MoldiBlocks molds made tissue microarray fabrication dramatically cheaper.",
-  },
-  {
-    value: "40+",
-    label: "imaging runs stabilized",
-    note: "RoboCam autofocus kept long microscope captures usable across repeated runs.",
-  },
-  {
-    value: "100s",
-    label: "workloads tracked",
-    note: "Pol Patrol made policy adoption visible across hundreds of production workloads.",
-  },
-];
-
-const highlightAreas = [
-  {
-    title: "Research automation",
-    body: "Microscopy, autofocus, image capture, and repeatable lab workflows.",
-  },
-  {
-    title: "Imaging systems",
-    body: "Infrared illumination, optical stability, and observation setups built for delicate specimens.",
-  },
-  {
-    title: "Developer tooling",
-    body: "Policy compliance, Kubernetes observability, and internal platform support.",
-  },
-];
-
 const practiceAreas = [
-  {
-    title: "Research systems",
-    body: "Microscopes, imaging rigs, and lab tools built so other people can use them reliably.",
-  },
-  {
-    title: "Infrastructure",
-    body: "Internal tools and platform work that make production systems easier to inspect and maintain.",
-  },
-  {
-    title: "Fabrication",
-    body: "3D-printed parts, enclosures, and fixtures that make hardware easier to assemble and use.",
-  },
+  "Research systems",
+  "Infrastructure",
+  "Fabrication",
+];
+
+const currentFocus = [
+  "MoldiBlocks discovery",
+  "Histology + TMA workflows",
+  "Technical community",
+  "AI-assisted automation",
 ];
 
 const homeJsonLd = [
@@ -105,13 +70,12 @@ const homeJsonLd = [
   description="Software engineering, research tooling, and hardware projects by Keith Curry."
   jsonLd={homeJsonLd}
 >
-  <section class="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.95fr)] lg:items-start">
-    <div class="surface-panel px-6 py-8 sm:px-8 sm:py-10">
+  <section class="surface-panel px-6 py-8 sm:px-8 sm:py-10">
+    <div class="max-w-5xl">
       <p class="page-eyebrow">Keith Curry</p>
       <h1 class="display-title mt-4">I build low-cost systems across research, hardware, and infrastructure.</h1>
-      <p class="lede mt-5 max-w-2xl">
-        I studied Computer Science and Biology, and most of my work sits somewhere between software,
-        hardware, and experimental workflows. I care about tools that are reliable, accessible, and easy to reproduce.
+      <p class="lede mt-5 max-w-3xl">
+        Software, hardware, and experimental workflows for reliability, access, and reproducibility.
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
         <a href="#featured" class="button-primary inline-flex items-center px-4 py-2 text-sm">
@@ -120,69 +84,27 @@ const homeJsonLd = [
         <a href="/work" class="button-secondary inline-flex items-center px-4 py-2 text-sm">
           All Work
         </a>
-        <a href="/about" class="button-secondary inline-flex items-center px-4 py-2 text-sm">
-          About
-        </a>
       </div>
-      <div class="focus-grid mt-10">
+      <div class="mt-6 flex flex-wrap gap-2">
         {practiceAreas.map((area) => (
-          <div class="focus-card">
-            <h2>{area.title}</h2>
-            <p>{area.body}</p>
-          </div>
+          <span class="folio-chip">{area}</span>
         ))}
       </div>
     </div>
-
-    <aside class="instrument-panel px-6 py-6">
-      <p class="page-eyebrow">Highlights</p>
-      <h2 class="mt-3 text-2xl font-semibold tracking-tight">Projects built around real constraints.</h2>
-      <p class="mt-3 text-sm text-zinc-700 dark:text-zinc-300">
-        My work ranges from 3D-printer-based microscopes to internal infrastructure tools. In both cases,
-        the details matter: alignment, data quality, maintenance, and whether other people can actually use the system.
-      </p>
-      <div class="highlight-grid mt-6">
-        {proofPoints.map((point, index) => (
-          <div class:list={["metric-card", index === 2 && "metric-card--wide"]}>
-            <div class="metric-value">{point.value}</div>
-            <div class="metric-label">{point.label}</div>
-            <p class="metric-note">{point.note}</p>
-          </div>
-        ))}
-      </div>
-      <div class="highlight-stack mt-6">
-        {highlightAreas.map((area) => (
-          <div class="highlight-row">
-            <p class="highlight-row__title">{area.title}</p>
-            <p class="highlight-row__body">{area.body}</p>
-          </div>
-        ))}
-      </div>
-      <div class="mt-5 flex flex-wrap gap-3">
-        <a
-          href="/KeithCurry_Resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button-primary inline-flex items-center px-4 py-2 text-sm"
-        >
-          Resume
-        </a>
-        <a href="/contact" class="button-secondary inline-flex items-center px-4 py-2 text-sm">
-          Contact
-        </a>
-        <a
-          href={siteMeta.links.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button-secondary inline-flex items-center px-4 py-2 text-sm"
-        >
-          LinkedIn
-        </a>
-      </div>
-    </aside>
   </section>
 
-  <section id="featured" class="mt-16">
+  <section class="mt-8">
+    <div class="surface-panel flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center">
+      <p class="page-eyebrow shrink-0">Currently</p>
+      <div class="flex flex-wrap gap-2">
+        {currentFocus.map((item) => (
+          <span class="folio-chip">{item}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="featured" class="mt-10">
     <div class="section-heading mb-6">
       <p class="page-eyebrow">Featured Work</p>
       <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">A few projects that show how I work.</h2>
