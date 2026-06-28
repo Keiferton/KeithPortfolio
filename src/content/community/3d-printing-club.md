@@ -1,6 +1,8 @@
 ---
 title: "3D Printing and Design Club"
 date: "2024-08-28"
+kind: "organization"
+group: "past"
 summary: "Founded and led SFSU's first 3D Printing club; teaching students design and printing skills"
 cover: "/images/community/3d-printing-club/3d-printing-club-autodesk.webp"
 org: "3D Printing and Design Club @ SFSU"
@@ -10,6 +12,21 @@ thumbs:
   - "/images/community/3d-printing-club/3d-printing-club-new-printers.webp"
 links:
   site: "https://www.linkedin.com/company/3d-printing-and-design-club-sfsu/"
+items:
+  - title: "Founded the club"
+    type: "role"
+    date: "2024-08-28"
+    role: "Founder & President"
+    summary: "Established the club from scratch, creating its constitution, branding, outreach plan, and workshop direction."
+  - title: "Hands-on CAD and printing workshops"
+    type: "event"
+    date: "2024-08-28"
+    role: "Organizer"
+    summary: "Organized recurring workshops covering 3D design, printer operation, troubleshooting, and prototyping fundamentals."
+  - title: "Printer access and student projects"
+    type: "service"
+    date: "2024-08-28"
+    summary: "Expanded access to shared printers and supported interdisciplinary student projects including a plastic bottle-to-filament recycler and a hand-cranked sock loom."
 ---
 Highlights: Founded the 3D Printing and Design Club to teach SFSU students the fundamentals of 3D printing, CAD, and prototyping through hands-on workshops and collaborative projects.
 

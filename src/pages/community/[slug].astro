@@ -10,11 +10,18 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const d = entry.data;
 const { Content } = await entry.render();
-const prettyDate = (iso?: string) => iso ? new Date(iso).toLocaleDateString(undefined,{year:"numeric",month:"short"}) : "";
+const prettyDate = (iso?: string) => iso ? new Date(`${iso}T12:00:00`).toLocaleDateString(undefined,{year:"numeric",month:"short"}) : "";
 const pagePath = Astro.url.pathname;
-const previewImage = d.cover ?? d.thumbs?.[0];
+const galleryImages = Array.from(new Set([d.cover, ...(d.thumbs ?? [])].filter(Boolean))) as string[];
+const previewImage = galleryImages[0];
 const pageDescription = d.summary ?? `${d.title} community work by Keith Curry.`;
 const keywords = [d.org, d.role].filter((value): value is string => Boolean(value));
+const itemTypeLabels = {
+  role: "Role",
+  event: "Event",
+  talk: "Talk",
+  service: "Service",
+};
 const jsonLd = [
   buildBreadcrumbJsonLd([
     { name: "Home", path: "/" },
@@ -51,14 +58,69 @@ const jsonLd = [
       </div>
     </header>
 
-    {d.cover && <img src={d.cover} alt={d.title} class="rounded-xl my-4 w-full max-w-xl mx-auto h-auto" loading="lazy" decoding="async" />}
+    {galleryImages.length === 1 && (
+      <img src={galleryImages[0]} alt={d.title} class="rounded-xl my-4 w-full max-w-xl mx-auto h-auto" loading="lazy" decoding="async" />
+    )}
 
-    {Array.isArray(d.thumbs) && d.thumbs.length > 0 && (
-      <div class="my-4 space-y-4">
-        {d.thumbs.map((src: string, i: number) => (
-          <img src={src} alt={`${d.title} image ${i+1}`} class="rounded-xl w-full max-w-xl mx-auto h-auto" loading="lazy" decoding="async" />
-        ))}
+    {galleryImages.length > 1 && (
+      <div class="not-prose community-gallery my-6" data-community-gallery>
+        <div class="community-gallery__stage">
+          <img
+            src={galleryImages[0]}
+            alt={`${d.title} image 1`}
+            class="community-gallery__image"
+            data-gallery-image
+            loading="lazy"
+            decoding="async"
+          />
+          <button class="community-gallery__control community-gallery__control--prev" type="button" data-gallery-prev aria-label="Previous image">‹</button>
+          <button class="community-gallery__control community-gallery__control--next" type="button" data-gallery-next aria-label="Next image">›</button>
+        </div>
+        <div class="community-gallery__meta">
+          <span data-gallery-counter>1 / {galleryImages.length}</span>
+        </div>
+        <div class="community-gallery__thumbs" aria-label={`${d.title} gallery thumbnails`}>
+          {galleryImages.map((src: string, i: number) => (
+            <button
+              class="community-gallery__thumb"
+              type="button"
+              data-gallery-thumb
+              data-src={src}
+              data-alt={`${d.title} image ${i + 1}`}
+              data-index={i}
+              aria-label={`Show image ${i + 1}`}
+              aria-current={i === 0 ? "true" : "false"}
+            >
+              <img src={src} alt="" loading="lazy" decoding="async" />
+            </button>
+          ))}
+        </div>
       </div>
+    )}
+
+    {Array.isArray(d.items) && d.items.length > 0 && (
+      <section class="not-prose community-items my-8" aria-labelledby="community-items-heading">
+        <h2 id="community-items-heading" class="text-2xl font-semibold tracking-tight">Selected work</h2>
+        <div class="mt-4 grid gap-4">
+          {d.items.map((item) => (
+            <article class="community-item">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="folio-chip">{itemTypeLabels[item.type]}</span>
+                {item.date && <span class="folio-date">{prettyDate(item.date)}</span>}
+              </div>
+              <h3 class="mt-3 text-xl font-semibold">{item.title}</h3>
+              {item.role && <p class="mt-1 text-sm font-medium text-zinc-700 dark:text-zinc-200">{item.role}</p>}
+              <p class="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-300">{item.summary}</p>
+              {item.links && (item.links.site || item.links.gallery) && (
+                <div class="mt-3 flex flex-wrap gap-3 text-sm">
+                  {item.links.site && <a class="underline text-zinc-800 dark:text-zinc-100" href={item.links.site} target="_blank" rel="noopener">Website</a>}
+                  {item.links.gallery && <a class="underline text-zinc-800 dark:text-zinc-100" href={item.links.gallery} target="_blank" rel="noopener">Gallery</a>}
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
     )}
 
     {/* Links */}
@@ -79,3 +141,31 @@ const jsonLd = [
     </div>
   </article>
 </Base>
+
+<script is:inline>
+  document.querySelectorAll("[data-community-gallery]").forEach((gallery) => {
+    const image = gallery.querySelector("[data-gallery-image]");
+    const counter = gallery.querySelector("[data-gallery-counter]");
+    const thumbs = Array.from(gallery.querySelectorAll("[data-gallery-thumb]"));
+    const previous = gallery.querySelector("[data-gallery-prev]");
+    const next = gallery.querySelector("[data-gallery-next]");
+    let activeIndex = 0;
+
+    const setActive = (index) => {
+      activeIndex = (index + thumbs.length) % thumbs.length;
+      const activeThumb = thumbs[activeIndex];
+      image.src = activeThumb.dataset.src;
+      image.alt = activeThumb.dataset.alt;
+      counter.textContent = `${activeIndex + 1} / ${thumbs.length}`;
+      thumbs.forEach((thumb, thumbIndex) => {
+        thumb.setAttribute("aria-current", thumbIndex === activeIndex ? "true" : "false");
+      });
+    };
+
+    thumbs.forEach((thumb, index) => {
+      thumb.addEventListener("click", () => setActive(index));
+    });
+    previous.addEventListener("click", () => setActive(activeIndex - 1));
+    next.addEventListener("click", () => setActive(activeIndex + 1));
+  });
+</script>
